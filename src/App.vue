@@ -17,10 +17,10 @@ export default {
     margin: 0;
     height: 100%;
     background: darkgray;
+    background-image: url(https://thehungryjpeg.com/img/products/0227f84faa13c1e9a0a23fccd6ed50bc4b416126.jpg);
   }
 
   #app {
     font-family: 'Titillium Web', sans-serif;
-    background: url(https://thehungryjpeg.com/img/products/0227f84faa13c1e9a0a23fccd6ed50bc4b416126.jpg);
   }
 </style>
