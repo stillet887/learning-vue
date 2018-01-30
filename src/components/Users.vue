@@ -1,6 +1,14 @@
 <template>
   <div class="users">
-    <div class="users__title">Users List</div>
+    <div class="users__title">
+      <limitation class="limitation"
+                  :current-limit="limit"
+                  :count="usersCount"
+                  :step="3"
+                  items-name="Users"
+                  @selectLimit="selectLimit"/>
+      Users List
+    </div>
     <pagination
       :count="usersCount"
       :current-page="page"
@@ -14,6 +22,7 @@
   import axios from 'axios'
   import UsersList from './UsersList.vue'
   import Pagination from './Pagination.vue'
+  import Limitation from './Limitation.vue'
 
   export default {
     name: 'Users',
@@ -23,6 +32,11 @@
         limit: 1,
         users: null,
         usersCount: 0
+      }
+    },
+    computed: {
+      lastPage() {
+        return Math.ceil(this.usersCount/this.limit);
       }
     },
     methods: {
@@ -36,6 +50,13 @@
       selectPage($event) {
         this.page = $event;
         this.loadUsers();
+      },
+      selectLimit($event) {
+        this.limit = $event;
+        if(this.page > this.lastPage) {
+          this.page = this.lastPage;
+        }
+        this.loadUsers();
       }
     },
     created() {
@@ -43,7 +64,8 @@
     },
     components: {
       UsersList,
-      Pagination
+      Pagination,
+      Limitation
     }
   }
 </script>
@@ -61,5 +83,10 @@
       color: white;
       background: rgba(255, 255, 255, 0.3);
     }
+  }
+
+  .limitation {
+    position: absolute;
+    left: 20px;
   }
 </style>
