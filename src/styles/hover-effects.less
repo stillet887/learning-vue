@@ -1,0 +1,25 @@
+.hover-horizontal() {
+  cursor: pointer;
+  position: relative;
+  left: 0;
+  transition: color .5s, background .3s, left .4s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: rgba(0, 0, 0, 0.9);
+    left: 15px;
+  }
+}
+
+.hover-vertical() {
+  cursor: pointer;
+  position: relative;
+  top: 0;
+  transition: color .5s, background .3s, top .4s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.9);
+    color: rgba(0, 0, 0, 0.9);
+    top: 15px
+  }
+}
