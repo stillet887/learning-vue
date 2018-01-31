@@ -129,6 +129,7 @@
       margin-right: 20px;
       width: 100px;
       height: 100px;
+      flex-shrink: 0;
     }
 
     &__description {
