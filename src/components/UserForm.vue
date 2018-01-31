@@ -16,52 +16,147 @@
     <div class="user-form__group _first">
       <label class="user-form__label"
              for="name">
-        Name:
+        Name*:
       </label>
       <input class="user-form__input"
              id="name"
-             v-model="user.name"/>
+             v-model="user.name"
+             @blur="$v.user.name.$touch()"/>
     </div>
+
+    <transition name="validation-errors">
+      <div class="validation" v-show="$v.user.name.$error">
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.name.required">
+            This field is required
+          </div>
+        </transition>
+
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.name.isName && $v.user.name.required">
+            This field must beginning and ending with alphabet character and contain only alphabet characters, spaces
+            and
+            dashes
+          </div>
+        </transition>
+
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.name.minLength">
+            This fiels must contain minimum {{ $v.user.name.$params.minLength.min }} characters
+          </div>
+        </transition>
+      </div>
+    </transition>
+
 
     <div class="user-form__group">
       <label class="user-form__label"
              for="age">
-        Age:
+        Age*:
       </label>
       <input class="user-form__input"
              id="age"
-             v-model="user.age"/>
+             v-model="user.age"
+             @blur="$v.user.age.$touch()"/>
     </div>
+
+    <transition name="validation-errors">
+      <div class="validation" v-if="$v.user.age.$error">
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.age.required">
+            This field is required
+          </div>
+        </transition>
+
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.age.minLength && $v.user.age.required">
+            This fiels can contain only numbers
+          </div>
+        </transition>
+      </div>
+    </transition>
+
 
     <div class="user-form__group">
       <label class="user-form__label"
              for="email">
-        Email:
+        Email*:
       </label>
       <input class="user-form__input"
              id="email"
-             v-model="user.email"/>
+             v-model="user.email"
+             @blur="$v.user.email.$touch()"/>
     </div>
+
+    <transition name="validation-errors">
+      <div class="validation" v-if="$v.user.email.$error">
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.email.required">
+            This field is required
+          </div>
+        </transition>
+
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.email.email && $v.user.email.required">
+            Fiels must contain correct email address
+          </div>
+        </transition>
+      </div>
+    </transition>
+
 
     <div class="user-form__group">
       <label class="user-form__label"
              for="phone">
-        Phone:
+        Phone*:
       </label>
       <input class="user-form__input"
              id="phone"
-             v-model="user.phone"/>
+             v-model="user.phone"
+             @blur="$v.user.phone.$touch()"/>
     </div>
+
+    <transition name="validation-errors">
+      <div class="validation" v-if="$v.user.phone.$error">
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.phone.required">
+            This field is required
+          </div>
+        </transition>
+
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.phone.isPhone && $v.user.email.required">
+            Fiels must contain correct phone number
+          </div>
+        </transition>
+      </div>
+    </transition>
 
     <div class="user-form__group">
       <label class="user-form__label"
              for="address">
-        Address:
+        Address*:
       </label>
       <input class="user-form__input"
              id="address"
              v-model="user.address"/>
     </div>
+
+    <transition name="validation-errors">
+      <div class="validation" v-if="$v.user.address.$error">
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.address.required">
+            This field is required
+          </div>
+        </transition>
+
+        <transition name="validation-errors">
+          <div class="validation__error" v-if="!$v.user.address.minLength">
+            This fiels must contain minimum {{ $v.user.address.$params.minLength.min }} characters
+          </div>
+        </transition>
+      </div>
+    </transition>
 
     <div class="user-form__group">
       <label class="user-form__label"
@@ -82,6 +177,9 @@
 </template>
 
 <script>
+  import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
+  import { isName, isPhone } from '../customValidators'
+
   export default {
     name: 'UserForm',
     props: {
@@ -105,9 +203,42 @@
         defaultPicture: 'https://pbs.twimg.com/profile_images/587929311736266752/TpnGN4LZ_400x400.png'
       }
     },
+    validations: {
+      user: {
+        name: {
+          required,
+          isName,
+          minLength: minLength(4)
+        },
+        age: {
+          required,
+          numeric
+        },
+        email: {
+          required,
+          email
+        },
+        phone: {
+          required,
+          isPhone
+        },
+        address: {
+          required,
+          minLength: minLength(10)
+        }
+      }
+    },
     methods: {
       submit() {
-        this.$emit('userDetailsEntered', this.user)
+        this.$v.user.name.$touch();
+        this.$v.user.age.$touch();
+        this.$v.user.email.$touch();
+        this.$v.user.phone.$touch();
+        this.$v.user.address.$touch();
+
+        if (!this.$v.$invalid) {
+          this.$emit('userDetailsEntered', this.user)
+        }
       }
     }
   }
@@ -131,7 +262,7 @@
     &__label {
       font-size: 25px;
       display: inline-block;
-      letter-spacing: 5px;
+      letter-spacing: 4px;
       width: 150px;
     }
 
@@ -206,5 +337,42 @@
         height: 83px !important;
       }
     }
+  }
+
+  .validation {
+    margin-left: 170px;
+    color: lightblue;
+    letter-spacing: 3px;
+    font-size: 18px;
+    padding-bottom: 20px;
+
+    &__error{
+      position: relative;
+      padding-bottom: 10px;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url(http://www.hey.fr/fun/emoji/android/en/icon/android/111-emoji_android_heavy_exclamation_mark_symbol.png) no-repeat;
+        background-size: cover;
+      }
+    }
+  }
+
+  .validation-errors-enter-active {
+    transform: translateY(0);
+    max-height: 100px;
+    transition: max-height .5s ease-in, opacity .2s .2s ease-in, transform .3s .2s ease-out;
+  }
+  .validation-errors-leave-active {
+    transform: translateY(0);
+    max-height: 100px;
+    transition: opacity .5s ease-in, max-height .2s .4s ease-in, transform .3s .2s ease-out;
+  }
+  .validation-errors-enter, .validation-errors-leave-to {
+    max-height: 0 !important;
+    transform: translateY(10px);
   }
 </style>
