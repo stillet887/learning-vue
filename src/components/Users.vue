@@ -24,7 +24,9 @@
       :limit="limit"
       @selectPage="selectPage"/>
 
-    <users-list :users="users"></users-list>
+    <users-list
+      :users="users"
+      @deleteUser="deleteUser"/>
   </div>
 </template>
 
@@ -55,6 +57,12 @@
         axios.get(url).then(res => {
           this.users = res.data;
           this.usersCount = Number(res.headers['x-total-count']);
+        })
+      },
+      deleteUser($event) {
+        const url = `http://localhost:3004/users/${$event}`;
+        axios.delete(url).then(res => {
+          this.loadUsers();
         })
       },
       selectPage($event) {

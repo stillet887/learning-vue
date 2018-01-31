@@ -117,7 +117,7 @@
   .user-form {
     color: white;
     max-width: 900px;
-    margin: 20px auto;
+    margin: 60px auto;
 
     &__group {
       margin: 20px;
@@ -165,6 +165,7 @@
       font-size: 25px;
       background: rgba(255, 255, 255, 0.3);
       border: 2px solid rgba(255, 255, 255, 0.6);
+      outline: none;
       color: white;
       letter-spacing: 5px;
       text-transform: uppercase;

@@ -4,12 +4,17 @@
     <div class="edit-user__title header">
       Edit User
     </div>
+    <div class="edit-user__error"
+         v-if="updateError">
+      Update error
+    </div>
     <div class="edit-user__id">
       ID : {{ this.$route.params.id }}
     </div>
     <user-form class="edit-user__form"
                v-if="user"
-               :user="user"/>
+               :user="user"
+               @userDetailsEntered="editUser"/>
     <div class="edit-user__error"
          v-if="requestError">
       Sorry, user with this ID doesn't exist...
@@ -29,7 +34,17 @@
       return {
         user: null,
         userUrl: null,
-        requestError: false
+        requestError: false,
+        updateError: false
+      }
+    },
+    methods: {
+      editUser($event) {
+        axios.put(this.userUrl, $event).then(() => {
+          this.$router.push({name: 'Users'})
+        }).catch(() => {
+          this.updateError = true;
+        })
       }
     },
     created() {
@@ -65,6 +80,7 @@
       max-width: 900px;
       font-size: 25px;
       margin: 30px auto;
+      color: lightblue;
     }
   }
 </style>

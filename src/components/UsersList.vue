@@ -2,10 +2,11 @@
   <ul class="users-list">
     <li class="user"
         :class="{'_active': user === selectedUser }"
-        v-for="user in users">
+        v-for="user in users"
+        :key="user.id">
 
         <div class="user__title">
-          <img class="user__picture" :src="user.picture">
+          <img class="user__picture" :src="user.picture || defaultPicture">
           <div class="user__name" @click="selectUser(user)">
             {{ user.name }}
           </div>
@@ -17,13 +18,15 @@
               <router-link class="user__action _edit" :to="{name: 'EditUser', params: {id: user.id}}" tag="div">
               </router-link>
 
-              <div class="user__action _delete">
+              <div class="user__action _delete" @click="deleteUser(user)">
               </div>
             </div>
 
 
             <ul class="user__info user-info">
-              <li class="user-info__group" v-for="field in ['id', 'email', 'phone', 'address', 'about']">
+              <li class="user-info__group"
+                  v-for="field in ['id', 'email', 'phone', 'address', 'about']"
+                  :key="field">
                 <div class="user-info__title">
                   {{ field }}
                 </div>
@@ -44,7 +47,8 @@
     name: 'UsersList',
     data() {
       return {
-        selectedUser: null
+        selectedUser: null,
+        defaultPicture: 'https://pbs.twimg.com/profile_images/587929311736266752/TpnGN4LZ_400x400.png'
       }
     },
     props: {
@@ -56,6 +60,9 @@
     methods: {
       selectUser(user) {
         this.selectedUser = this.selectedUser === user ? null : user;
+      },
+      deleteUser(user) {
+        this.$emit('deleteUser', user.id);
       }
     },
     watch: {

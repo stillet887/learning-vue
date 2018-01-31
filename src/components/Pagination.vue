@@ -4,6 +4,7 @@
       <li class="page"
           :class="{'_current': page === currentPage }"
           v-for="page in pagesCount"
+          :key="page"
           @click="selectPage(page)">
         <div class="page__number">
           {{ page }}
