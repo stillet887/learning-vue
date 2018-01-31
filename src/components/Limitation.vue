@@ -81,9 +81,16 @@
     &__step {
       font-size: 25px;
       cursor: pointer;
+      color: rgba(255, 255, 255, 0.5);
+      transition: color .2s;
+
+      &:hover {
+        color: rgba(255, 255, 255, 0.8);
+      }
 
       &._disabled {
-        color: grey;
+        color: rgba(0, 0, 0, 0.2);
+        cursor: not-allowed;
       }
     }
 

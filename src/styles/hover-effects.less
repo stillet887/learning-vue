@@ -2,12 +2,13 @@
   cursor: pointer;
   position: relative;
   left: 0;
-  transition: color .5s, background .3s, left .4s;
+  transition: color .5s, background .3s, left .4s, font-size .3s;
 
   &:hover {
     background: rgba(255, 255, 255, 0.9);
     color: rgba(0, 0, 0, 0.9);
     left: 15px;
+    font-size: 30px;
   }
 }
 
@@ -18,8 +19,25 @@
   transition: color .5s, background .3s, top .4s;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.9);
+    //background: rgba(255, 255, 255, 0.9);
     color: rgba(0, 0, 0, 0.9);
     top: 15px
+  }
+}
+
+.hover-convex() {
+  transition: background .2s;
+
+  &::before {
+    transition: font-size .2s, letter-spacing .2s;
+  }
+
+  &:hover {
+    &::before {
+      font-size: 26px;
+      letter-spacing: 7px;
+    }
+
+    background: rgba(255, 255, 255, 0.9);
   }
 }

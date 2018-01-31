@@ -13,8 +13,15 @@
 
         <transition name="fade">
           <div class="user__description" v-if="user === selectedUser">
-            <div class="user__edit">
+            <div class="user__actions">
+              <router-link class="user__action _edit" :to="{name: 'EditUser', params: {id: user.id}}" tag="div">
+              </router-link>
+
+              <div class="user__action _delete">
+              </div>
             </div>
+
+
             <ul class="user__info user-info">
               <li class="user-info__group" v-for="field in ['id', 'email', 'phone', 'address', 'about']">
                 <div class="user-info__title">
@@ -50,6 +57,16 @@
       selectUser(user) {
         this.selectedUser = this.selectedUser === user ? null : user;
       }
+    },
+    watch: {
+      users() {
+        if(this.users.length === 1) {
+          const self = this;
+          setTimeout(() => {
+            self.selectUser(self.users[0]);
+          }, 10)
+        }
+      }
     }
   }
 </script>
@@ -72,12 +89,18 @@
 
     &._active {
       &:not(:first-child) {
-        top: 30px;
+        top: 20px;
+      }
+    }
+
+    &:first-child {
+      .user__description {
+        margin: 20px 0 40px;
       }
     }
 
     &__title {
-      margin: 10px 0;
+      margin: 20px 0;
       display: flex;
       align-items: center;
     }
@@ -98,6 +121,7 @@
     &__picture {
       margin-right: 20px;
       width: 100px;
+      height: 100px;
     }
 
     &__description {
@@ -107,25 +131,51 @@
 
     &__info {
       flex-basis: 100%;
+      min-height: 300px;
       background: rgba(0, 0, 0, 0.7);
     }
 
-    &__edit {
+    &__actions {
+      display: flex;
+      flex-direction: column;
       width: 100px;
       flex-shrink: 0;
-      background: rgba(255, 255, 255, 0.3);
       margin-right: 20px;
-      position: relative;
       .hover-vertical();
+    }
+
+    &__action {
+      position: relative;
+      flex-basis: 100%;
+      background: rgba(255, 255, 255, 0.3);
+
+      &._edit {
+        flex-grow: 2;
+        margin-bottom: 3px;
+        .hover-convex();
+
+        &::before {
+          content: 'edit';
+        }
+      }
+
+      &._delete{
+        flex-grow: 3;
+        .hover-convex();
+
+        &::before {
+          content: 'delete';
+        }
+      }
 
       &::before {
-        content: 'edit';
         display: block;
-        width: 100px;
+        width: 130px;
         text-align: center;
         position: absolute;
         top: 50%;
-        transform: translateY(-50%) rotate(270deg);
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(270deg);
         text-transform: uppercase;
         font-weight: bold;
         font-size: 18px;

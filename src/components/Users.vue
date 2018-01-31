@@ -1,19 +1,29 @@
 <template>
   <div class="users">
-    <div class="users__title">
+    <div class="users__header header">
       <limitation class="limitation"
                   :current-limit="limit"
                   :count="usersCount"
                   :step="3"
                   items-name="Users"
                   @selectLimit="selectLimit"/>
-      Users List
+      <div class="users__title">
+        Users List
+      </div>
+      <div class="users__count">
+        Total : {{ usersCount }}
+      </div>
+      <router-link class="new-user-link" :to="{name: 'NewUser'}" tag="div">
+        New User
+      </router-link>
     </div>
+
     <pagination
       :count="usersCount"
       :current-page="page"
       :limit="limit"
       @selectPage="selectPage"/>
+
     <users-list :users="users"></users-list>
   </div>
 </template>
@@ -72,21 +82,48 @@
 
 <style lang="less">
   .users {
+    &__header {
+    }
+
     &__title {
-      font-size: 50px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      word-spacing: 15px;
-      font-weight: bold;
-      text-align: center;
-      padding: 20px 0;
-      color: white;
-      background: rgba(255, 255, 255, 0.3);
+      position: relative;
+      top: -20px;
+    }
+
+    &__count {
+      font-size: 20px;
+      line-height: 10px;
     }
   }
 
   .limitation {
     position: absolute;
+    z-index: 2;
     left: 20px;
+    line-height: 20px;
+    word-spacing: 5px;
+  }
+
+  .new-user-link {
+    word-spacing: 5px;
+    font-size: 20px;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    cursor: pointer;
+    text-shadow: none;
+    transition: font-size .2s, text-shadow .3s;
+
+    &:hover {
+      font-size: 21px;
+      text-shadow: 1px 1px 3px black;
+    }
+
+    &::before {
+      content: '+';
+      font-size: 35px;
+      position: relative;
+      top: 2px;
+    }
   }
 </style>
