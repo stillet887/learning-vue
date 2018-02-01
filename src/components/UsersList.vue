@@ -178,6 +178,7 @@
       &._delete{
         cursor: pointer;
         border: none;
+        outline: none;
         flex-grow: 3;
         .hover-convex();
 
@@ -195,9 +196,8 @@
         left: 50%;
         transform: translate(-50%, -50%) rotate(270deg);
         text-transform: uppercase;
-        font-weight: bold;
         font-size: 18px;
-        letter-spacing: 15px;
+        letter-spacing: 13px;
       }
     }
   }
