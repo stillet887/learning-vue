@@ -15,29 +15,29 @@
 
 <script>
   import axios from 'axios'
-  import UserForm from './UserForm.vue'
-  import BackLink from './BackLink.vue'
+  import UserForm from '@/components/UserForm.vue'
+  import BackLink from '@/components/BackLink.vue'
 
   export default {
     name: 'NewUser',
+    components: {
+      UserForm,
+      BackLink
+    },
     data() {
       return {
         sendError: false
       }
     },
     methods: {
-      createUser($event) {
+      createUser(user) {
         const url = 'http://localhost:3004/users';
-        axios.post(url, $event).then(() => {
+        axios.post(url, user).then(() => {
           this.$router.push({name: 'Users'})
         }).catch(() => {
           this.sendError = true;
         })
       }
-    },
-    components: {
-      UserForm,
-      BackLink
     }
   }
 </script>

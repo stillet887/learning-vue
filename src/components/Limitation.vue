@@ -4,7 +4,7 @@
       {{ itemsName }} on page:
     </div>
     <span class="limitation__step"
-          :class="{'_disabled': currentLimit - step <= 0}"
+          :class="{'_disabled': !decreaseAvailable}"
           @click="decreaseLimit">
       -{{ step }}
     </span>
@@ -12,7 +12,7 @@
       {{ currentLimit }}
     </span>
     <span class="limitation__step"
-          :class="{'_disabled': currentLimit > count}"
+          :class="{'_disabled': !increaseAvailable}"
           @click="increaseLimit">
       +{{ step }}
     </span>
@@ -40,31 +40,26 @@
         default: 'Items'
       }
     },
+    computed: {
+      increaseAvailable() {
+        return this.currentLimit < this.count;
+      },
+      decreaseAvailable() {
+        return this.currentLimit - this.step > 0;
+      }
+    },
     methods: {
       increaseLimit() {
-        if (this.currentLimit < this.count){
-          this.selectLimit('+')
+        if (this.increaseAvailable){
+          const newLimit = this.currentLimit + this.step;
+          this.$emit('selectLimit', newLimit)
         }
       },
       decreaseLimit() {
-        if (this.currentLimit - this.step > 0){
-          this.selectLimit('-')
+        if (this.decreaseAvailable){
+          const newLimit = this.currentLimit - this.step;
+          this.$emit('selectLimit', newLimit)
         }
-      },
-
-      selectLimit(direction) {
-        let newLimit = null;
-
-        switch (direction) {
-          case '+':
-            newLimit = this.currentLimit + this.step;
-            break;
-          case '-':
-            newLimit = this.currentLimit - this.step;
-            break;
-        }
-
-        this.$emit('selectLimit', newLimit)
       }
     }
   }

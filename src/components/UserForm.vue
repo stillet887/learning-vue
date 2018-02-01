@@ -178,7 +178,7 @@
 
 <script>
   import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
-  import { isName, isPhone } from '../customValidators'
+  import { isName, isPhone } from '@/customValidators'
 
   export default {
     name: 'UserForm',

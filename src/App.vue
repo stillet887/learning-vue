@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style>
   @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
 
   body {

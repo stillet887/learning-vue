@@ -31,14 +31,21 @@
         required: true
       }
     },
-    methods: {
-      selectPage(page) {
-        this.$emit('selectPage', page)
-      }
-    },
     computed: {
       pagesCount() {
         return Math.ceil(this.count / this.limit);
+      }
+    },
+    watch: {
+      pagesCount() {
+        if(this.currentPage > this.pagesCount) {
+          this.$emit('selectPage', this.pagesCount)
+        }
+      }
+    },
+    methods: {
+      selectPage(page) {
+        this.$emit('selectPage', page)
       }
     }
   }

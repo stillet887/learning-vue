@@ -9,7 +9,7 @@
       Update error
     </div>
     <div class="edit-user__id">
-      ID : {{ this.$route.params.id }}
+      ID : {{ this.userId }}
     </div>
     <user-form class="edit-user__form"
                v-if="user"
@@ -24,23 +24,33 @@
 
 <script>
   import axios from 'axios'
-  import UserForm from './UserForm.vue'
-  import BackLink from './BackLink.vue'
+  import UserForm from '@/components/UserForm.vue'
+  import BackLink from '@/components/BackLink.vue'
 
   export default {
     name: 'EditUser',
-    components: {BackLink, UserForm},
+    components: {
+      UserForm,
+      BackLink
+    },
     data() {
       return {
         user: null,
-        userUrl: null,
         requestError: false,
         updateError: false
       }
     },
+    computed: {
+      userId() {
+        return this.$route.params.id;
+      },
+      userUrl() {
+        return `http://localhost:3004/users/${this.userId}`;
+      }
+    },
     methods: {
-      editUser($event) {
-        axios.put(this.userUrl, $event).then(() => {
+      editUser(user) {
+        axios.put(this.userUrl, user).then(() => {
           this.$router.push({name: 'Users'})
         }).catch(() => {
           this.updateError = true;
@@ -48,17 +58,11 @@
       }
     },
     created() {
-      const userId = this.$route.params.id;
-      this.userUrl = `http://localhost:3004/users/${userId}`;
       axios.get(this.userUrl).then(res => {
         this.user = res.data;
       }).catch(() => {
         this.requestError = true;
       })
-    },
-    comments: {
-      UserForm,
-      BackLink
     }
   }
 </script>

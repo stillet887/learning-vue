@@ -1,7 +1,7 @@
 <template>
   <ul class="users-list">
     <li class="user"
-        :class="{'_active': user === selectedUser }"
+        :class="{'_active': userIsSelected(user) }"
         v-for="user in users"
         :key="user.id">
 
@@ -13,19 +13,19 @@
         </div>
 
         <transition name="fade">
-          <div class="user__description" v-if="user === selectedUser">
+          <div class="user__description" v-if="userIsSelected(user)">
             <div class="user__actions">
-              <router-link class="user__action _edit" :to="{name: 'EditUser', params: {id: user.id}}" tag="div">
+              <router-link class="user__action _edit" :to="{name: 'EditUser', params: {id: user.id}}">
               </router-link>
 
-              <div class="user__action _delete" @click="deleteUser(user)">
-              </div>
+              <button class="user__action _delete" @click="deleteUser(user)">
+              </button>
             </div>
 
 
             <ul class="user__info user-info">
               <li class="user-info__group"
-                  v-for="field in ['id', 'email', 'phone', 'address', 'about']"
+                  v-for="field in displayedFields"
                   :key="field">
                 <div class="user-info__title">
                   {{ field }}
@@ -55,9 +55,18 @@
       users: {
         type: Array,
         default: null
+      },
+      displayedFields: {
+        type: Array,
+        default() {
+          return ['id', 'email', 'phone', 'address', 'about'];
+        }
       }
     },
     methods: {
+      userIsSelected(user){
+        return user === this.selectedUser;
+      },
       selectUser(user) {
         this.selectedUser = this.selectedUser === user ? null : user;
       },
@@ -68,9 +77,8 @@
     watch: {
       users() {
         if(this.users.length === 1) {
-          const self = this;
           setTimeout(() => {
-            self.selectUser(self.users[0]);
+            this.selectUser(this.users[0]);
           }, 10)
         }
       }
@@ -168,6 +176,8 @@
       }
 
       &._delete{
+        cursor: pointer;
+        border: none;
         flex-grow: 3;
         .hover-convex();
 

@@ -1,10 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-const Users = () => import('@/components/Users.vue');
-const NewUser = () => import('@/components/NewUser.vue');
-const EditUser = () => import('@/components/EditUser.vue');
-
 Vue.use(Router)
 
 export default new Router({
@@ -13,17 +9,17 @@ export default new Router({
     {
       path: '/',
       name: 'Users',
-      component: Users
+      component: () => import('@/components/Users.vue')
     },
     {
       path: '/new',
       name: 'NewUser',
-      component: NewUser
+      component: () => import('@/components/NewUser.vue')
     },
     {
       path: '/edit/:id',
       name: 'EditUser',
-      component: EditUser
+      component: () => import('@/components/EditUser.vue')
     }
   ]
 })

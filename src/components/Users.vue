@@ -13,7 +13,7 @@
       <div class="users__count">
         Total : {{ usersCount }}
       </div>
-      <router-link class="new-user-link" :to="{name: 'NewUser'}" tag="div">
+      <router-link class="new-user-link" :to="{name: 'NewUser'}">
         New User
       </router-link>
     </div>
@@ -24,6 +24,10 @@
       :limit="limit"
       @selectPage="selectPage"/>
 
+    <div class="error" v-if="errorConnection">
+      No connection to the server. Please try again later.
+    </div>
+
     <users-list
       :users="users"
       @deleteUser="deleteUser"/>
@@ -32,23 +36,24 @@
 
 <script>
   import axios from 'axios'
-  import UsersList from './UsersList.vue'
-  import Pagination from './Pagination.vue'
-  import Limitation from './Limitation.vue'
+  import UsersList from '@/components/UsersList.vue'
+  import Pagination from '@/components/Pagination.vue'
+  import Limitation from '@/components/Limitation.vue'
 
   export default {
     name: 'Users',
+    components: {
+      UsersList,
+      Pagination,
+      Limitation
+    },
     data(){
       return {
         page: 1,
         limit: 1,
         users: null,
-        usersCount: 0
-      }
-    },
-    computed: {
-      lastPage() {
-        return Math.ceil(this.usersCount/this.limit);
+        usersCount: 0,
+        errorConnection: false
       }
     },
     methods: {
@@ -57,33 +62,31 @@
         axios.get(url).then(res => {
           this.users = res.data;
           this.usersCount = Number(res.headers['x-total-count']);
+          this.errorConnection = false;
+        }).catch(() => {
+          this.errorConnection = true;
         })
       },
-      deleteUser($event) {
-        const url = `http://localhost:3004/users/${$event}`;
+      deleteUser(id) {
+        const url = `http://localhost:3004/users/${id}`;
         axios.delete(url).then(res => {
           this.loadUsers();
+          this.errorConnection = false;
+        }).catch(() => {
+          this.errorConnection = true;
         })
       },
-      selectPage($event) {
-        this.page = $event;
+      selectPage(page) {
+        this.page = page;
         this.loadUsers();
       },
-      selectLimit($event) {
-        this.limit = $event;
-        if(this.page > this.lastPage) {
-          this.page = this.lastPage;
-        }
+      selectLimit(limit) {
+        this.limit = limit;
         this.loadUsers();
       }
     },
     created() {
       this.loadUsers();
-    },
-    components: {
-      UsersList,
-      Pagination,
-      Limitation
     }
   }
 </script>
@@ -113,6 +116,8 @@
   }
 
   .new-user-link {
+    color: white;
+    text-decoration: none;
     word-spacing: 5px;
     font-size: 20px;
     position: absolute;
@@ -133,5 +138,16 @@
       position: relative;
       top: 2px;
     }
+  }
+
+  .error {
+    position: fixed;
+    z-index: 3;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    background: darkgray;
+    color: white;
   }
 </style>
