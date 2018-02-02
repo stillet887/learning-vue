@@ -13,8 +13,12 @@
     </div>
     <user-form class="edit-user__form"
                v-if="user"
-               :user="user"
-               @userDetailsEntered="editUser"/>
+               v-model="user"
+               @userDetailsEntered="editUser">
+      <span slot="buttonName">
+        Update
+      </span>
+    </user-form>
     <div class="edit-user__error"
          v-if="requestError">
       Sorry, user with this ID doesn't exist...
@@ -24,14 +28,12 @@
 
 <script>
   import axios from 'axios'
-  import UserForm from '@/components/UserForm.vue'
-  import BackLink from '@/components/BackLink.vue'
 
   export default {
     name: 'EditUser',
     components: {
-      UserForm,
-      BackLink
+      UserForm: () => import('@/components/UserForm.vue'),
+      BackLink: () => import('@/components/BackLink.vue')
     },
     data() {
       return {
@@ -49,8 +51,8 @@
       }
     },
     methods: {
-      editUser(user) {
-        axios.put(this.userUrl, user).then(() => {
+      editUser() {
+        axios.put(this.userUrl, this.user).then(() => {
           this.$router.push({name: 'Users'})
         }).catch(() => {
           this.updateError = true;

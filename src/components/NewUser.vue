@@ -5,7 +5,7 @@
     <div v-if="sendError" class="new-user__error">
       Create error
     </div>
-    <user-form @userDetailsEntered="createUser">
+    <user-form v-model="user" @userDetailsEntered="createUser">
       <span slot="buttonName">
         Create
       </span>
@@ -15,24 +15,31 @@
 
 <script>
   import axios from 'axios'
-  import UserForm from '@/components/UserForm.vue'
-  import BackLink from '@/components/BackLink.vue'
 
   export default {
     name: 'NewUser',
     components: {
-      UserForm,
-      BackLink
+      UserForm: () => import('@/components/UserForm.vue'),
+      BackLink: () => import('@/components/BackLink.vue')
     },
     data() {
       return {
-        sendError: false
+        sendError: false,
+        user: {
+          picture: null,
+          name: null,
+          age: null,
+          email: null,
+          phone: null,
+          address: null,
+          about: null
+        }
       }
     },
     methods: {
-      createUser(user) {
+      createUser() {
         const url = 'http://localhost:3004/users';
-        axios.post(url, user).then(() => {
+        axios.post(url, this.user).then(() => {
           this.$router.push({name: 'Users'})
         }).catch(() => {
           this.sendError = true;

@@ -17,6 +17,10 @@
 <script>
   export default {
     name: 'Pagination',
+    model: {
+      prop: 'currentPage',
+      event: 'selectPage'
+    },
     props: {
       count: {
         type: Number,

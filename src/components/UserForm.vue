@@ -182,20 +182,13 @@
 
   export default {
     name: 'UserForm',
+    model: {
+      prop: 'user'
+    },
     props: {
       user: {
         type: Object,
-        default() {
-          return {
-            picture: null,
-            name: null,
-            age: null,
-            email: null,
-            phone: null,
-            address: null,
-            about: null
-          }
-        }
+        required: true
       }
     },
     data() {

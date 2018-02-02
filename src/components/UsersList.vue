@@ -12,7 +12,7 @@
           </div>
         </div>
 
-        <transition name="fade">
+        <transition name="fade" appear>
           <div class="user__description" v-if="userIsSelected(user)">
             <div class="user__actions">
               <router-link class="user__action _edit" :to="{name: 'EditUser', params: {id: user.id}}">
@@ -63,6 +63,11 @@
         }
       }
     },
+    watch: {
+      users() {
+        this.selectFirst();
+      }
+    },
     methods: {
       userIsSelected(user){
         return user === this.selectedUser;
@@ -70,18 +75,17 @@
       selectUser(user) {
         this.selectedUser = this.selectedUser === user ? null : user;
       },
+      selectFirst() {
+        if(this.users.length === 1) {
+          this.selectUser(this.users[0]);
+        }
+      },
       deleteUser(user) {
         this.$emit('deleteUser', user.id);
       }
     },
-    watch: {
-      users() {
-        if(this.users.length === 1) {
-          setTimeout(() => {
-            this.selectUser(this.users[0]);
-          }, 10)
-        }
-      }
+    mounted() {
+      this.selectFirst();
     }
   }
 </script>

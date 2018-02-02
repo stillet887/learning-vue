@@ -22,6 +22,10 @@
 <script>
   export default {
     name: 'Limitation',
+    model: {
+      prop: 'currentLimit',
+      event: 'selectLimit'
+    },
     props: {
       currentLimit: {
         type: Number,

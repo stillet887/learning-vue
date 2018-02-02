@@ -6,7 +6,8 @@
                   :count="usersCount"
                   :step="3"
                   items-name="Users"
-                  @selectLimit="selectLimit"/>
+                  v-model="limit"
+                  />
       <div class="users__title">
         Users List
       </div>
@@ -20,9 +21,9 @@
 
     <pagination
       :count="usersCount"
-      :current-page="page"
+      v-model="page"
       :limit="limit"
-      @selectPage="selectPage"/>
+      />
 
     <div class="error" v-if="errorConnection">
       No connection to the server. Please try again later.
@@ -36,16 +37,13 @@
 
 <script>
   import axios from 'axios'
-  import UsersList from '@/components/UsersList.vue'
-  import Pagination from '@/components/Pagination.vue'
-  import Limitation from '@/components/Limitation.vue'
 
   export default {
     name: 'Users',
     components: {
-      UsersList,
-      Pagination,
-      Limitation
+      UsersList: () => import('@/components/UsersList.vue'),
+      Pagination: () => import('@/components/Pagination.vue'),
+      Limitation: () => import('@/components/Limitation.vue')
     },
     data(){
       return {
@@ -54,6 +52,14 @@
         users: null,
         usersCount: 0,
         errorConnection: false
+      }
+    },
+    watch: {
+      limit() {
+        this.loadUsers();
+      },
+      page() {
+        this.loadUsers();
       }
     },
     methods: {
@@ -76,14 +82,6 @@
           this.errorConnection = true;
         })
       },
-      selectPage(page) {
-        this.page = page;
-        this.loadUsers();
-      },
-      selectLimit(limit) {
-        this.limit = limit;
-        this.loadUsers();
-      }
     },
     created() {
       this.loadUsers();
