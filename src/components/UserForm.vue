@@ -3,13 +3,19 @@
     <div class="user-picture">
       <img :src="user.picture || defaultPicture" class="user-picture__img"/>
       <div class="user-picture__group">
-        <label class="user-form__label"
+        <div class="user-form__label"
                for="picture">
-          Picrure IRL:
-        </label>
-        <textarea class="user-form__input _textarea"
-               id="picture"
-               v-model="user.picture"/>
+          Picture:
+        </div>
+        <input class="service-element" type="file" ref="picture" @change="processFile($event)"/>
+        <button class="user-form__button _file" @click.prevent="chooseFile">Choice Picture</button>
+        <transition name="validation-errors">
+          <div class="validation _file" v-if="imageUploadError">
+            <div class="validation__error">
+              Image upload error. The default image will be used.
+            </div>
+          </div>
+        </transition>
       </div>
     </div>
 
@@ -168,7 +174,7 @@
              v-model="user.about"/>
     </div>
 
-    <button class="user-form__submit" @click.prevent="submit">
+    <button class="user-form__button _submit" @click.prevent="submit">
       <slot name="buttonName">
         Submit
       </slot>
@@ -179,6 +185,7 @@
 <script>
   import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
   import { isName, isPhone } from '@/customValidators'
+  import axios from 'axios'
 
   export default {
     name: 'UserForm',
@@ -193,7 +200,8 @@
     },
     data() {
       return {
-        defaultPicture: 'https://pbs.twimg.com/profile_images/587929311736266752/TpnGN4LZ_400x400.png'
+        defaultPicture: 'https://pbs.twimg.com/profile_images/587929311736266752/TpnGN4LZ_400x400.png',
+        imageUploadError: false
       }
     },
     validations: {
@@ -222,6 +230,33 @@
       }
     },
     methods: {
+      chooseFile() {
+        this.$refs.picture.click();
+      },
+
+      processFile() {
+        const config = {
+          headers: {
+            'Authorization': 'Client-ID e166be57661b6b8'
+          }
+        };
+
+        const file = this.$refs.picture.files[0];
+        const data = new FormData();
+        data.append('image', file);
+
+        const url = 'https://api.imgur.com/3/image';
+
+        axios.post(url, data, config)
+          .then(res => {
+            this.user.picture = res.data.data.link;
+            this.imageUploadError = false;
+          })
+          .catch(err => {
+            this.imageUploadError = true;
+          })
+      },
+
       submit() {
         this.$v.user.name.$touch();
         this.$v.user.age.$touch();
@@ -281,18 +316,14 @@
       }
     }
 
-    &__submit {
+    &__button {
       cursor: pointer;
-      margin: 30px;
-      float: right;
       padding: 5px 20px;
-      font-size: 25px;
       background: rgba(255, 255, 255, 0.3);
       border: 2px solid rgba(255, 255, 255, 0.6);
       outline: none;
       color: white;
       letter-spacing: 5px;
-      text-transform: uppercase;
       transition: color .2s, border .2s, background .2s;
 
       &:hover {
@@ -300,6 +331,19 @@
         border: 2px solid rgba(255, 255, 255, 1);
         color: black;
 
+      }
+
+      &._file {
+        display: block;
+        font-size: 20px;
+        margin-top: 20px;
+      }
+
+      &._submit {
+        margin: 30px;
+        float: right;
+        font-size: 25px;
+        text-transform: uppercase;
       }
     }
   }
@@ -339,6 +383,10 @@
     font-size: 18px;
     padding-bottom: 20px;
 
+    &._file {
+      margin: 10px 0 0;
+    }
+
     &__error{
       position: relative;
       padding-bottom: 10px;
@@ -367,5 +415,9 @@
   .validation-errors-enter, .validation-errors-leave-to {
     max-height: 0 !important;
     transform: translateY(10px);
+  }
+
+  .service-element {
+    display: none;
   }
 </style>

@@ -76,7 +76,7 @@
         this.selectedUser = this.selectedUser === user ? null : user;
       },
       selectFirst() {
-        if(this.users.length === 1) {
+        if(this.users && this.users.length === 1) {
           this.selectUser(this.users[0]);
         }
       },
