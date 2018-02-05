@@ -70,9 +70,10 @@
     color: white;
     list-style-type: none;
     height: 75px;
-    overflow: scroll;
+    overflow-x: scroll;
+    overflow-y: hidden;
     white-space: nowrap;
-    padding: 0 20px;
+    padding: 0 20px 100px;
   }
 
   .page {
