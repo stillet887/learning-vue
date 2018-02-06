@@ -38,7 +38,7 @@
     },
     methods: {
       createUser() {
-        const url = 'http://localhost:3004/users';
+        const url = '/users';
         axios.post(url, this.user).then(() => {
           this.$router.push({name: 'Users'})
         }).catch(() => {

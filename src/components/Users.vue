@@ -64,7 +64,7 @@
     },
     methods: {
       loadUsers(){
-        const url = `http://localhost:3004/users?_page=${this.page}&_limit=${this.limit}`;
+        const url = `/users?_page=${this.page}&_limit=${this.limit}`;
         axios.get(url).then(res => {
           this.users = res.data;
           this.usersCount = Number(res.headers['x-total-count']);
@@ -74,7 +74,7 @@
         })
       },
       deleteUser(id) {
-        const url = `http://localhost:3004/users/${id}`;
+        const url = `/users/${id}`;
         axios.delete(url).then(res => {
           this.loadUsers();
           this.errorConnection = false;

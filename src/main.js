@@ -4,8 +4,11 @@ import Vue from 'vue'
 import App from '@/App'
 import router from '@/router'
 import Vuelidate from 'vuelidate'
+import axios from 'axios'
 
 Vue.config.productionTip = false;
+
+axios.defaults.baseURL = 'https://json-users-api.herokuapp.com';
 
 Vue.use(Vuelidate);
 

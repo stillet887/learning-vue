@@ -47,7 +47,7 @@
         return this.$route.params.id;
       },
       userUrl() {
-        return `http://localhost:3004/users/${this.userId}`;
+        return `/users/${this.userId}`;
       }
     },
     methods: {
