@@ -5,6 +5,9 @@ import App from '@/App'
 import router from '@/router'
 import Vuelidate from 'vuelidate'
 import axios from 'axios'
+import VueCroppie from 'vue-croppie';
+
+Vue.use(VueCroppie);
 
 Vue.config.productionTip = false;
 
