@@ -7,8 +7,7 @@
                for="picture">
           Picture:
         </div>
-        <input class="service-element" type="file" ref="picture" @change="processFile($event)"/>
-        <button class="user-form__button _file" @click.prevent="chooseFile">Choice Picture</button>
+        <image-uploader v-model="user.picture"/>
         <transition name="validation-errors">
           <div class="validation _file" v-if="imageUploadError">
             <div class="validation__error">
@@ -185,10 +184,12 @@
 <script>
   import { required, minLength, email, numeric } from 'vuelidate/lib/validators'
   import { isName, isPhone } from '@/customValidators'
-  import axios from 'axios'
 
   export default {
     name: 'UserForm',
+    components: {
+      ImageUploader: () => import('@/components/ImageUploader.vue')
+    },
     model: {
       prop: 'user'
     },
@@ -230,33 +231,6 @@
       }
     },
     methods: {
-      chooseFile() {
-        this.$refs.picture.click();
-      },
-
-      processFile() {
-        const config = {
-          headers: {
-            'Authorization': 'Client-ID e166be57661b6b8'
-          }
-        };
-
-        const file = this.$refs.picture.files[0];
-        const data = new FormData();
-        data.append('image', file);
-
-        const url = 'https://api.imgur.com/3/image';
-
-        axios.post(url, data, config)
-          .then(res => {
-            this.user.picture = res.data.data.link;
-            this.imageUploadError = false;
-          })
-          .catch(err => {
-            this.imageUploadError = true;
-          })
-      },
-
       submit() {
         this.$v.user.name.$touch();
         this.$v.user.age.$touch();
@@ -415,9 +389,5 @@
   .validation-errors-enter, .validation-errors-leave-to {
     max-height: 0 !important;
     transform: translateY(10px);
-  }
-
-  .service-element {
-    display: none;
   }
 </style>
