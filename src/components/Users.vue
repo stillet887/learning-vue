@@ -57,12 +57,28 @@
     },
     data(){
       return {
-        page: 1,
-        limit: 1,
         users: null,
         usersCount: 0,
         errorConnection: false,
         loading: false
+      }
+    },
+    computed: {
+      page: {
+        get() {
+          return this.$store.state.currentPage;
+        },
+        set(page) {
+          this.$store.dispatch('changePage', page)
+        }
+      },
+      limit: {
+        get() {
+          return this.$store.state.currentLimit;
+        },
+        set(limit) {
+          this.$store.dispatch('changeLimit', limit)
+        }
       }
     },
     watch: {
