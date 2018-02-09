@@ -65,12 +65,14 @@
 
     &__header {
       background: rgba(0, 0, 0, 0.8);
-
       box-shadow: inset 0 0 100px 0 rgba(255, 255, 255, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.7);
       margin-bottom: 5px;
       position: relative;
       left: -30px;
+      letter-spacing: 2px;
+      word-spacing: 5px;
+      color: white;
     }
 
     &__title {

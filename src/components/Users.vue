@@ -86,6 +86,7 @@
         }).catch(() => {
           this.errorConnection = true;
           this.loading = false;
+          this.users = null
         })
       },
       deleteUser(id) {
@@ -117,6 +118,15 @@
     &__count {
       font-size: 20px;
       line-height: 10px;
+    }
+
+    .spinner {
+      &__icon {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -100%);
+      }
     }
   }
 
@@ -163,16 +173,4 @@
     background: darkgray;
     color: white;
   }
-
-  .spinner {
-
-    &__icon {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -100%);
-    }
-
-  }
-
 </style>

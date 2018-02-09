@@ -1,9 +1,30 @@
 <template>
-  <ul class="users-list">
-    <li class="user"
-        :class="{'_active': userIsSelected(user) }"
-        v-for="user in users"
-        :key="user.id">
+  <div class="users-list-wrapper">
+    <modal-window v-if="userForDeletion" @close="closeModalWindow">
+      <span slot="header">
+        Delete User
+      </span>
+      <div>
+        <h2>
+          Are you sure you want to delete the user {{ userForDeletion.name }}?
+        </h2>
+        <div class="action-buttons">
+          <button class="action-buttons__item" @click="closeModalWindow">
+            Cancel
+          </button>
+          <button class="action-buttons__item" @click="confirmDeletion">
+            Confirm
+          </button>
+        </div>
+
+      </div>
+    </modal-window>
+
+    <ul class="users-list">
+      <li class="user"
+          :class="{'_active': userIsSelected(user) }"
+          v-for="user in users"
+          :key="user.id">
 
         <div class="user__title">
           <img class="user__picture" :src="user.picture || defaultPicture">
@@ -38,18 +59,17 @@
           </div>
         </transition>
 
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </div>
+
 </template>
 
 <script>
   export default {
     name: 'UsersList',
-    data() {
-      return {
-        selectedUser: null,
-        defaultPicture: 'https://pbs.twimg.com/profile_images/587929311736266752/TpnGN4LZ_400x400.png'
-      }
+    components: {
+      ModalWindow: () => import('@/components/ModalWindow.vue')
     },
     props: {
       users: {
@@ -61,6 +81,13 @@
         default() {
           return ['id', 'email', 'phone', 'address', 'about'];
         }
+      }
+    },
+    data() {
+      return {
+        selectedUser: null,
+        defaultPicture: 'https://pbs.twimg.com/profile_images/587929311736266752/TpnGN4LZ_400x400.png',
+        userForDeletion: null
       }
     },
     watch: {
@@ -81,7 +108,13 @@
         }
       },
       deleteUser(user) {
-        this.$emit('deleteUser', user.id);
+        this.userForDeletion = user;
+      },
+      confirmDeletion() {
+        this.$emit('deleteUser', this.userForDeletion.id);
+      },
+      closeModalWindow() {
+        this.userForDeletion = null;
       }
     },
     mounted() {
@@ -227,6 +260,37 @@
 
     &__value {
       padding: 10px;
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    width: 100%;
+    margin-top: 30px;
+
+    &__item {
+      flex-grow: 1;
+      cursor: pointer;
+      padding: 5px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(0, 0, 0, 0.5);
+      outline: none;
+      color: rgba(0, 0, 0, 0.7);
+      letter-spacing: 5px;
+      transition: color .2s, border .2s, background .2s;
+      font-size: 20px;
+      text-transform: uppercase;
+      font-weight: bold;
+
+      &:first-child {
+        margin-right: 15px;
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 1);
+        border-color: rgba(0, 0, 0, 0.7);
+        color: black;
+      }
     }
   }
 </style>

@@ -13,6 +13,9 @@
         </button>
 
         <modal-window v-if="changingPicture" @close="closeModalWindow">
+          <span slot="header">
+            Change Picture
+          </span>
           <image-uploader v-model="user.picture"/>
         </modal-window>
 
