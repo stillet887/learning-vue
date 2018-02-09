@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="uploader">
     <input class="service-element" type="file" ref="picture" @change="initImage"/>
-    <button class="user-form__button _file" @click.prevent="chooseFile">Choose Picture</button>
+    <button class="uploader__button" @click.prevent="chooseFile">Choose Picture</button>
 
     <div>
       <image-cropper v-if="pictureObject" :picture="pictureObject.link" @pictureChanged="updateImage"/>
@@ -71,7 +71,28 @@
   }
 </script>
 
-<style>
+<style lang="less">
+  .uploader {
+    &__button {
+      cursor: pointer;
+      padding: 5px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(0, 0, 0, 0.5);
+      outline: none;
+      color: rgba(0, 0, 0, 0.7);
+      letter-spacing: 5px;
+      transition: color .2s, border .2s, background .2s;
+      font-size: 20px;
+      width: 100%;
+
+        &:hover {
+        background: rgba(255, 255, 255, 1);
+        border: 2px solid rgba(0, 0, 0, 0.7);
+        color: black;
+      }
+    }
+  }
+
   .service-element {
     display: none;
   }

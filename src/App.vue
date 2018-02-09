@@ -10,14 +10,27 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
   @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
 
   body {
     margin: 0;
     height: 100%;
     background: #1d1d1d;
-    background-image: url(https://thehungryjpeg.com/img/products/0227f84faa13c1e9a0a23fccd6ed50bc4b416126.jpg);
+
+    &::before {
+      content: '';
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url(./assets/app_background.jpg);
+      background-size: cover;
+      filter: brightness(0.3);
+      z-index: -1;
+    }
   }
 
   #app {

@@ -7,7 +7,15 @@
                for="picture">
           Picture:
         </div>
-        <image-uploader v-model="user.picture"/>
+
+        <button class="user-form__button _file" @click.prevent="changingPicture = true">
+          Change Picture
+        </button>
+
+        <modal-window v-if="changingPicture" @close="closeModalWindow">
+          <image-uploader v-model="user.picture"/>
+        </modal-window>
+
         <transition name="validation-errors">
           <div class="validation _file" v-if="imageUploadError">
             <div class="validation__error">
@@ -188,7 +196,8 @@
   export default {
     name: 'UserForm',
     components: {
-      ImageUploader: () => import('@/components/ImageUploader.vue')
+      ImageUploader: () => import('@/components/ImageUploader.vue'),
+      ModalWindow: () => import('@/components/ModalWindow.vue')
     },
     model: {
       prop: 'user'
@@ -202,7 +211,8 @@
     data() {
       return {
         defaultPicture: 'https://pbs.twimg.com/profile_images/587929311736266752/TpnGN4LZ_400x400.png',
-        imageUploadError: false
+        imageUploadError: false,
+        changingPicture: false
       }
     },
     validations: {
@@ -230,6 +240,9 @@
         }
       }
     },
+    watch: {
+      'user.picture': 'closeModalWindow'
+    },
     methods: {
       submit() {
         this.$v.user.name.$touch();
@@ -241,6 +254,9 @@
         if (!this.$v.$invalid) {
           this.$emit('userDetailsEntered', this.user)
         }
+      },
+      closeModalWindow() {
+        this.changingPicture = false;
       }
     }
   }
@@ -304,7 +320,6 @@
         background: rgba(255, 255, 255, 0.8);
         border: 2px solid rgba(255, 255, 255, 1);
         color: black;
-
       }
 
       &._file {
