@@ -134,6 +134,7 @@
     position: absolute;
     z-index: 2;
     left: 20px;
+    top: 15px;
     line-height: 20px;
     word-spacing: 5px;
   }

@@ -1,25 +1,18 @@
 <template>
   <div class="limitation">
-    <div class="limitation__items-name">
-      {{ itemsName }} on page:
+    <div class="limitation__wrapper" @wheel.capture.stop  id="test">
+      <input class="limitation__input"
+             type="text"
+             v-model="currentLimit"
+             id="limit_input">
     </div>
-    <span class="limitation__step"
-          :class="{'_disabled': !decreaseAvailable}"
-          @click="decreaseLimit">
-      -{{ step }}
-    </span>
-    <span class="limitation__current">
-      {{ currentLimit }}
-    </span>
-    <span class="limitation__step"
-          :class="{'_disabled': !increaseAvailable}"
-          @click="increaseLimit">
-      +{{ step }}
-    </span>
   </div>
 </template>
 
 <script>
+  import knob from 'jquery-knob'
+  import $ from 'jquery'
+
   export default {
     name: 'Limitation',
     model: {
@@ -44,57 +37,55 @@
         default: 'Items'
       }
     },
-    computed: {
-      increaseAvailable() {
-        return this.currentLimit < this.count;
-      },
-      decreaseAvailable() {
-        return this.currentLimit - this.step > 0;
+    data() {
+      return {
+        limitInput: null
       }
     },
     methods: {
-      increaseLimit() {
-        if (this.increaseAvailable){
-          const newLimit = this.currentLimit + this.step;
-          this.$emit('selectLimit', newLimit)
-        }
-      },
-      decreaseLimit() {
-        if (this.decreaseAvailable){
-          const newLimit = this.currentLimit - this.step;
-          this.$emit('selectLimit', newLimit)
-        }
+      changeLimit(val) {
+        this.$emit('selectLimit', Math.round(val));
       }
+    },
+    mounted() {
+      this.limitInput =  $('#limit_input');
+
+      this.limitInput.knob({
+        fgColor: '#ffffff',
+        displayPrevious: true,
+        width: 100,
+        skin: 'tron',
+        thickness: '.38',
+        bgColor: 'rgba(0, 0, 0, .5)',
+        angleArc: '270',
+        angleOffset: '90',
+        max: this.count,
+        min: 1,
+        change: function (val) {
+          this.changeLimit(val);
+        }.bind(this)
+      });
     }
   }
 </script>
 
 <style lang="less">
   .limitation {
-    text-align: center;
-
-    &__items-name {
-      font-size: 14px;
-    }
-
-    &__step {
-      font-size: 25px;
-      cursor: pointer;
-      color: rgba(255, 255, 255, 0.5);
-      transition: color .2s;
+    &__wrapper {
+      opacity: .6;
+      transition: opacity .2s;
 
       &:hover {
-        color: rgba(255, 255, 255, 0.8);
-      }
-
-      &._disabled {
-        color: rgba(0, 0, 0, 0.2);
-        cursor: not-allowed;
+        opacity: 1;
       }
     }
 
-    &__current {
-      font-size: 35px;
+    &__input {
+      outline: none;
     }
+  }
+
+  canvas {
+    cursor: pointer;
   }
 </style>
