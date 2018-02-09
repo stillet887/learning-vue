@@ -229,18 +229,4 @@
       padding: 10px;
     }
   }
-
-
-  .fade-enter-active {
-    max-height: 500px;
-    transition: max-height .3s ease-out, opacity .2s .3s ease-in;
-  }
-  .fade-leave-active {
-    max-height: 500px;
-    transition: max-height .2s .3s ease-out, opacity .3s ease-in;
-  }
-  .fade-enter, .fade-leave-to {
-    opacity: 0;
-    max-height: 0;
-  }
 </style>

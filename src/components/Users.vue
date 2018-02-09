@@ -29,9 +29,19 @@
       No connection to the server. Please try again later.
     </div>
 
-    <users-list
-      :users="users"
-      @deleteUser="deleteUser"/>
+    <transition name="fade">
+      <users-list
+        v-if="users && !loading"
+        :users="users"
+        @deleteUser="deleteUser"/>
+    </transition>
+
+
+    <transition name="fade">
+      <div class="spinner" v-if="loading">
+        <img class="spinner__icon" src="../assets/loading_icon.gif"/>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -51,7 +61,8 @@
         limit: 1,
         users: null,
         usersCount: 0,
-        errorConnection: false
+        errorConnection: false,
+        loading: false
       }
     },
     watch: {
@@ -64,13 +75,17 @@
     },
     methods: {
       loadUsers(){
+        this.loading = true;
+
         const url = `/users?_page=${this.page}&_limit=${this.limit}`;
         axios.get(url).then(res => {
           this.users = res.data;
           this.usersCount = Number(res.headers['x-total-count']);
           this.errorConnection = false;
+          this.loading = false;
         }).catch(() => {
           this.errorConnection = true;
+          this.loading = false;
         })
       },
       deleteUser(id) {
@@ -148,4 +163,16 @@
     background: darkgray;
     color: white;
   }
+
+  .spinner {
+
+    &__icon {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -100%);
+    }
+
+  }
+
 </style>

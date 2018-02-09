@@ -48,4 +48,29 @@ export default {
     color: white;
     background: rgba(255, 255, 255, 0.3);
   }
+
+  .spinner {
+    padding: 40px 0 20px;
+    text-align: center;
+
+    &__icon {
+      display: inline-block;
+      filter: grayscale(1);
+      width: 100px;
+    }
+  }
+
+
+  .fade-enter-active {
+    max-height: 500px;
+    transition: max-height .3s ease-out, opacity .2s .3s ease-in;
+  }
+  .fade-leave-active {
+    max-height: 500px;
+    transition: max-height .2s .3s ease-out, opacity .3s ease-in;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+    max-height: 0;
+  }
 </style>

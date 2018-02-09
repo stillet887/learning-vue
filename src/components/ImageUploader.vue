@@ -3,9 +3,16 @@
     <input class="service-element" type="file" ref="picture" @change="initImage"/>
     <button class="uploader__button" @click.prevent="chooseFile">Choose Picture</button>
 
-    <div>
-      <image-cropper v-if="pictureObject" :picture="pictureObject.link" @pictureChanged="updateImage"/>
-    </div>
+    <transition name="fade">
+      <div v-if="pictureObject && !loading">
+        <image-cropper :picture="pictureObject.link" @pictureChanged="updateImage"/>
+      </div>
+
+      <div class="spinner" v-else-if="loading">
+        <img class="spinner__icon" src="../assets/loading_icon.gif"/>
+      </div>
+    </transition>
+
   </div>
 </template>
 
@@ -32,7 +39,8 @@
           }
         },
         url: 'https://api.imgur.com/3/image',
-        pictureObject: null
+        pictureObject: null,
+        loading: false
       }
     },
     methods: {
@@ -44,27 +52,36 @@
         const data = new FormData();
         data.append('image', file);
 
+        this.loading = true;
+
         axios.post(this.url, data, this.config)
           .then(res => {
             const picture = res.data.data.link;
             this.pictureObject = res.data.data;
             this.imageUploadError = false;
+            this.loading = false;
           })
           .catch(err => {
             this.imageUploadError = true;
+            this.loading = false;
           })
       },
       updateImage(file) {
         const data = new FormData();
         data.append('image', file);
 
+        this.loading = true;
+        this.pictureObject = null;
+
         axios.post(this.url, data, this.config)
           .then(res => {
             const picture = res.data.data.link;
             this.$emit('changePicture', picture);
+            this.loading = false;
           })
           .catch(err => {
             this.imageUploadError = true;
+            this.loading = false;
           })
       }
     }
