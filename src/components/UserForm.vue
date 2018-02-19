@@ -3,12 +3,13 @@
     <div class="user-picture">
       <img :src="user.picture || defaultPicture" class="user-picture__img"/>
       <div class="user-picture__group">
-        <div class="user-form__label"
-               for="picture">
+        <div class="user-form__label">
           Picture:
         </div>
 
-        <button class="user-form__button _file" @click.prevent="changingPicture = true">
+        <button class="user-form__button _file"
+                type="button"
+                @click="changingPicture = true">
           Change Picture
         </button>
 
@@ -184,7 +185,9 @@
              v-model="user.about"/>
     </div>
 
-    <button class="user-form__button _submit" @click.prevent="submit">
+    <button class="user-form__button _submit"
+            type="button"
+            @click="submit">
       <slot name="buttonName">
         Submit
       </slot>

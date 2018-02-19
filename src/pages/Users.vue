@@ -31,7 +31,7 @@
 
     <transition name="fade">
       <users-list
-        v-if="users && !loading"
+        v-if="usersIsLoaded"
         :users="users"
         @deleteUser="deleteUser"/>
     </transition>
@@ -57,13 +57,19 @@
     },
     data(){
       return {
-        users: null,
+        users: [],
         usersCount: 0,
         errorConnection: false,
         loading: false
       }
     },
     computed: {
+      usersIsLoaded(){
+        return this.users.length && !this.loading;
+      },
+      url() {
+        return `/users?_page=${this.page}&_limit=${this.limit}`;
+      },
       page: {
         get() {
           return this.$store.state.currentPage;
@@ -82,19 +88,14 @@
       }
     },
     watch: {
-      limit() {
-        this.loadUsers();
-      },
-      page() {
-        this.loadUsers();
-      }
+      limit: 'loadUsers',
+      page: 'loadUsers'
     },
     methods: {
       loadUsers(){
         this.loading = true;
 
-        const url = `/users?_page=${this.page}&_limit=${this.limit}`;
-        axios.get(url).then(res => {
+        axios.get(this.url).then(res => {
           this.users = res.data;
           this.usersCount = Number(res.headers['x-total-count']);
           this.errorConnection = false;
@@ -102,7 +103,7 @@
         }).catch(() => {
           this.errorConnection = true;
           this.loading = false;
-          this.users = null
+          this.users = [];
         })
       },
       deleteUser(id) {

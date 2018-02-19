@@ -2,25 +2,28 @@
   <div class="cropper">
     <vue-croppie
       class="cropper__image"
-      ref=croppieRef
+      ref="croppieRef"
       :enableOrientation="true"
       :enableResize="false"
       :showZoomer="false"
-      :viewport="{width: 200, height: 200, type: 'square'}">
+      :viewport="viewport">
     </vue-croppie>
 
     <div class="cropper__buttons">
       <button class="cropper__button _rotate _right"
+              type="button"
               @click="rotate(-90)">
       </button>
 
       <button class="cropper__button _submit"
+              type="button"
               @click="crop()">
         Crop
       </button>
 
-      <button  class="cropper__button _rotate _left"
-               @click="rotate(90)">
+      <button class="cropper__button _rotate _left"
+              type="button"
+              @click="rotate(90)">
       </button>
     </div>
 
@@ -38,19 +41,24 @@
     },
     data() {
       return {
-        cropped: null
+        viewport: {
+          width: 200,
+          height: 200,
+          type: 'square'
+        }
       }
     },
     watch: {
-      picture(){
-        this.bind();
-      }
+      picture: 'updateCroppie'
     },
     methods: {
-      bind() {
+      updateCroppie() {
         this.$refs.croppieRef.bind({
           url: this.picture,
         });
+      },
+      updatePicture(newPicture) {
+        this.$emit('pictureChanged', newPicture);
       },
       crop() {
         const options = {
@@ -58,16 +66,14 @@
           format: 'jpeg',
           circle: false
         };
-        this.$refs.croppieRef.result(options, (output) => {
-          this.$emit('pictureChanged', output);
-        });
+        this.$refs.croppieRef.result(options, this.updatePicture);
       },
       rotate(rotationAngle) {
         this.$refs.croppieRef.rotate(rotationAngle);
       }
     },
     mounted() {
-      this.bind();
+      this.updateCroppie();
     }
   }
 </script>

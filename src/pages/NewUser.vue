@@ -33,13 +33,13 @@
           phone: null,
           address: null,
           about: null
-        }
+        },
+        url: '/users'
       }
     },
     methods: {
       createUser() {
-        const url = '/users';
-        axios.post(url, this.user).then(() => {
+        axios.post(this.url, this.user).then(() => {
           this.$router.push({name: 'Users'})
         }).catch(() => {
           this.sendError = true;

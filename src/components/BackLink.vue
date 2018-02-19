@@ -1,6 +1,6 @@
 <template>
   <router-link class="back-link" tag="div" :to="{name: 'Users'}">
-    <span class="back-link__img"> < </span>
+    <span class="back-link__img"> &lt </span>
     <span class="back-link__text">Back to users list</span>
   </router-link>
 </template>

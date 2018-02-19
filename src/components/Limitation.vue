@@ -7,7 +7,7 @@
         <input class="limitation__input"
                type="text"
                v-model="currentLimit"
-               id="limit_input">
+               ref="limitInput">
       </div>
     </transition>
   </div>
@@ -53,7 +53,7 @@
       }
     },
     mounted() {
-      this.limitInput =  $('#limit_input');
+      this.limitInput =  $(this.$refs.limitInput);
 
       setTimeout(() => {
         this.limitInput.knob({
@@ -67,9 +67,9 @@
           angleOffset: '90',
           max: this.count,
           min: 1,
-          change: function (val) {
+          change: val => {
             this.changeLimit(val);
-          }.bind(this)
+          }
         });
 
         this.readyToShow = true;

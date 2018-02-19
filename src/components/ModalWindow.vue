@@ -10,7 +10,8 @@
         </div>
 
         <button class="modal__button close-button"
-              @click="$emit('close')">
+                type="button"
+                @click="$emit('close')">
           <div class="close-button__icon"/>
         </button>
       </div>
@@ -27,7 +28,9 @@
 </template>
 
 <script>
-
+  export default {
+    name: 'ModalWindow'
+  }
 </script>
 
 <style lang="less">

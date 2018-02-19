@@ -9,10 +9,14 @@
           Are you sure you want to delete the user {{ userForDeletion.name }}?
         </h2>
         <div class="action-buttons">
-          <button class="action-buttons__item" @click="closeModalWindow">
+          <button class="action-buttons__item"
+                  type="button"
+                  @click="closeModalWindow">
             Cancel
           </button>
-          <button class="action-buttons__item" @click="confirmDeletion">
+          <button class="action-buttons__item"
+                  type="button"
+                  @click="confirmDeletion">
             Confirm
           </button>
         </div>
@@ -39,7 +43,9 @@
               <router-link class="user__action _edit" :to="{name: 'EditUser', params: {id: user.id}}">
               </router-link>
 
-              <button class="user__action _delete" @click="deleteUser(user)">
+              <button class="user__action _delete"
+                      type="button"
+                      @click="deleteUser(user)">
               </button>
             </div>
 
@@ -74,7 +80,7 @@
     props: {
       users: {
         type: Array,
-        default: null
+        required: true
       },
       displayedFields: {
         type: Array,

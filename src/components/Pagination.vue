@@ -43,7 +43,7 @@
     watch: {
       pagesCount() {
         if(this.currentPage > this.pagesCount) {
-          this.$emit('selectPage', this.pagesCount)
+          this.selectPage(this.pagesCount);
         }
       }
     },

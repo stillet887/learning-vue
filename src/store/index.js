@@ -4,20 +4,18 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex);
 
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     currentPage: 1,
     currentLimit: 1,
     showModal: false
   },
-  getters: {
-  },
   mutations: {
-    changePage: function(state, payload) {
+    changePage(state, payload) {
       state.currentPage = payload;
     },
-    changeLimit: function(state, payload) {
+    changeLimit(state, payload) {
       state.currentLimit = payload;
     }
   },

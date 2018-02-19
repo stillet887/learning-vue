@@ -8,17 +8,17 @@ export default new Router({
     {
       path: '/',
       name: 'Users',
-      component: () => import('@/components/Users.vue')
+      component: () => import('@/pages/Users.vue')
     },
     {
       path: '/new',
       name: 'NewUser',
-      component: () => import('@/components/NewUser.vue')
+      component: () => import('@/pages/NewUser.vue')
     },
     {
       path: '/edit/:id',
       name: 'EditUser',
-      component: () => import('@/components/EditUser.vue')
+      component: () => import('@/pages/EditUser.vue')
     }
   ]
 })

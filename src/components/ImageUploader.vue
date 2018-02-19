@@ -1,15 +1,25 @@
 <template>
   <div class="uploader">
-    <input class="service-element" type="file" ref="picture" @change="initImage"/>
-    <button class="uploader__button" @click.prevent="chooseFile">Choose Picture</button>
+    <input class="service-element"
+           type="file"
+           ref="picture"
+           @change="initImage"/>
+    <button class="uploader__button"
+            type="button"
+            @click="chooseFile">
+      Choose Picture
+    </button>
 
     <transition name="fade">
-      <div v-if="pictureObject && !loading">
-        <image-cropper :picture="pictureObject.link" @pictureChanged="updateImage"/>
+      <div v-if="pictureIsReady">
+        <image-cropper :picture="pictureObject.link"
+                       @pictureChanged="updateImage"/>
       </div>
 
-      <div class="spinner" v-else-if="loading">
-        <img class="spinner__icon" src="../assets/loading_icon.gif"/>
+      <div class="spinner"
+           v-else-if="loading">
+        <img class="spinner__icon"
+             src="../assets/loading_icon.gif"/>
       </div>
     </transition>
 
@@ -29,18 +39,23 @@
       event: 'changePicture'
     },
     props: {
-      picture: String
+      picture: {
+        validator: (value) => {
+          return typeof value === String ||  value === null;
+        },
+        required: true
+      }
     },
     data() {
       return {
-        config: {
-          headers: {
-            'Authorization': 'Client-ID e166be57661b6b8'
-          }
-        },
         url: 'https://api.imgur.com/3/image',
         pictureObject: null,
         loading: false
+      }
+    },
+    computed: {
+      pictureIsReady() {
+        return this.pictureObject && !this.loading;
       }
     },
     methods: {
@@ -49,35 +64,34 @@
       },
       initImage() {
         const file = this.$refs.picture.files[0];
-        const data = new FormData();
-        data.append('image', file);
 
-        this.loading = true;
-
-        axios.post(this.url, data, this.config)
+        this.sendImage(file)
           .then(res => {
-            const picture = res.data.data.link;
-            this.pictureObject = res.data.data;
+            this.pictureObject = res;
+            const picture = this.pictureObject.link;
             this.imageUploadError = false;
-            this.loading = false;
-          })
-          .catch(err => {
-            this.imageUploadError = true;
-            this.loading = false;
           })
       },
       updateImage(file) {
+        this.pictureObject = null;
+
+        this.sendImage(file)
+          .then(res => {
+            const picture = res.link;
+            this.$emit('changePicture', picture);
+          })
+      },
+      sendImage(file) {
         const data = new FormData();
         data.append('image', file);
 
         this.loading = true;
-        this.pictureObject = null;
 
-        axios.post(this.url, data, this.config)
+        return axios.post(this.url, data)
           .then(res => {
-            const picture = res.data.data.link;
-            this.$emit('changePicture', picture);
+            this.imageUploadError = false;
             this.loading = false;
+            return res.data.data;
           })
           .catch(err => {
             this.imageUploadError = true;
