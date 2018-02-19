@@ -1,11 +1,15 @@
 <template>
   <div class="limitation">
-    <div class="limitation__wrapper" @wheel.capture.stop  id="test">
-      <input class="limitation__input"
-             type="text"
-             v-model="currentLimit"
-             id="limit_input">
-    </div>
+    <transition name="opacity">
+      <div class="limitation__wrapper"
+           @wheel.capture.stop
+           v-show="readyToShow">
+        <input class="limitation__input"
+               type="text"
+               v-model="currentLimit"
+               id="limit_input">
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -39,7 +43,8 @@
     },
     data() {
       return {
-        limitInput: null
+        limitInput: null,
+        readyToShow: false
       }
     },
     methods: {
@@ -50,21 +55,25 @@
     mounted() {
       this.limitInput =  $('#limit_input');
 
-      this.limitInput.knob({
-        fgColor: '#ffffff',
-        displayPrevious: true,
-        width: 100,
-        skin: 'tron',
-        thickness: '.38',
-        bgColor: 'rgba(0, 0, 0, .5)',
-        angleArc: '270',
-        angleOffset: '90',
-        max: this.count,
-        min: 1,
-        change: function (val) {
-          this.changeLimit(val);
-        }.bind(this)
-      });
+      setTimeout(() => {
+        this.limitInput.knob({
+          fgColor: '#ffffff',
+          displayPrevious: true,
+          width: 100,
+          skin: 'tron',
+          thickness: '.38',
+          bgColor: 'rgba(0, 0, 0, .5)',
+          angleArc: '270',
+          angleOffset: '90',
+          max: this.count,
+          min: 1,
+          change: function (val) {
+            this.changeLimit(val);
+          }.bind(this)
+        });
+
+        this.readyToShow = true;
+      }, 1000)
     }
   }
 </script>
@@ -87,5 +96,13 @@
 
   canvas {
     cursor: pointer;
+  }
+
+  .opacity-enter-active {
+    transition: opacity .3s ease-in;
+  }
+
+  .opacity-enter {
+    opacity: 0;
   }
 </style>

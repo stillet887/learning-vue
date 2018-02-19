@@ -190,4 +190,8 @@
     background: darkgray;
     color: white;
   }
+
+  .pages-container {
+    z-index: 10;
+  }
 </style>
