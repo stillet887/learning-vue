@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <router-view/>
+    <transition name="route">
+      <router-view>
+      </router-view>
+    </transition>
   </div>
 </template>
 
@@ -72,5 +75,27 @@ export default {
   .fade-enter, .fade-leave-to {
     opacity: 0;
     max-height: 0;
+  }
+
+
+  .route-enter-active, .route-leave-active {
+    transition-property: all;
+    transition-duration: 1s;
+    transform: scale(1);
+  }
+
+  .route-enter, .route-leave-to {
+    opacity: 0;
+  }
+
+  .route-leave-to {
+    transform: scale(.1);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
+  .route-enter {
+    transform: scale(2);
   }
 </style>
