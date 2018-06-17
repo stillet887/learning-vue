@@ -11,6 +11,7 @@
         <h2>
           Are you sure you want change theme to {{ currentTheme }}?
         </h2>
+
         <div class="action-buttons">
           <button class="action-buttons__item"
                   type="button"
@@ -22,20 +23,17 @@
                   @click="confirmChanging">
             Confirm
           </button>
-
-          <div>
-            <input class="dont-ask-again__checkbox"
-                   type="checkbox"
-                   v-model="changeWithoutConfirmation"
-                   id="changeWithoutConfirmation"/>
-            <label class="dont-ask-again__label"
-                   :class="{'_active': changeWithoutConfirmation}"
-                   for="changeWithoutConfirmation">
-              Don't ask again
-            </label>
-          </div>
         </div>
 
+        <input class="dont-ask-again__checkbox"
+               type="checkbox"
+               v-model="changeWithoutConfirmation"
+               id="changeWithoutConfirmation"/>
+        <label class="dont-ask-again__label"
+               :class="{'_active': changeWithoutConfirmation}"
+               for="changeWithoutConfirmation">
+          Don't ask again
+        </label>
       </div>
     </modal-window>
 
@@ -184,6 +182,11 @@
         cursor: pointer;
         min-height: 0;
         height: calc(~'(100vh - 300px)/2');
+        transition: filter .5s ease-out;
+
+        &:hover {
+          filter: none;
+        }
       }
 
       &._winter {
@@ -222,6 +225,10 @@
       font-size: 16px;
       font-weight: bold;
       position: relative;
+
+      @media @tablet {
+        width: 100%;
+      }
 
       &::before {
         position: absolute;
