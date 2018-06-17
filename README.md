@@ -1,6 +1,11 @@
 # learning-vue
 
-> A Vue.js project
+ A learning project on Vue.js.
+ This project contain components for display of list of users and forms for changing user info and add new user with validation.
+ Also there are support of several theme for interface.
+
+ Project is deployed on [GitHub Pages](https://stillet887.github.io/learning-vue/) and works on REST API with [JSON-server on Heroku](https://json-users-api.herokuapp.com).
+
 
 ## Build Setup
 
