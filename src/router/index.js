@@ -19,6 +19,11 @@ export default new Router({
       path: '/edit/:id',
       name: 'EditUser',
       component: () => import('@/pages/EditUser.vue')
+    },
+    {
+      path: '/themes',
+      name: 'Themes',
+      component: () => import('@/pages/Themes.vue')
     }
   ]
 })

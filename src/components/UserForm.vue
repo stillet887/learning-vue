@@ -413,7 +413,7 @@
 
   .validation {
     margin: 0 20px;
-    color: lightblue;
+    color: white;
     letter-spacing: 3px;
     font-size: 18px;
 
@@ -437,6 +437,7 @@
         height: 20px;
         background: url(http://www.hey.fr/fun/emoji/android/en/icon/android/111-emoji_android_heavy_exclamation_mark_symbol.png) no-repeat;
         background-size: cover;
+        filter: brightness(10);
       }
     }
   }

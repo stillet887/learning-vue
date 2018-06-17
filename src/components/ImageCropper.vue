@@ -79,15 +79,25 @@
 </script>
 
 <style lang="less">
+  @import (less) "../styles/media";
+
   .cropper {
     &__image {
-      margin-top: 30px;
+      margin-top: 20px;
+
+      @media @tablet {
+        margin-top: 30px;
+      }
     }
 
     &__buttons {
       display: flex;
       width: 100%;
-      margin-top: 30px;
+      margin-top: 20px;
+
+      @media @tablet {
+        margin-top: 30px;
+      }
     }
 
     &__button {
@@ -149,12 +159,27 @@
   }
 
   .cr-boundary {
-    max-width: 60vw;
-    max-height: 60vw;
+    max-width: 60vmin;
+    max-height: 60vmin;
+
+    @media screen and (min-device-aspect-ratio: 10/9) {
+      max-height: 25vmin;
+    }
   }
 
   .cr-viewport {
-    max-width: 25vw;
-    max-height: 25vw;
+    max-width: 25vmin;
+    max-height: 25vmin;
+
+    @media screen and (min-device-aspect-ratio: 10/9) {
+      max-width: 20vmin;
+      max-height: 20vmin;
+    }
+  }
+
+  @media screen and (min-device-aspect-ratio: 10/9) {
+    .cr-boundary {
+      max-height: 30vm
+    }
   }
 </style>

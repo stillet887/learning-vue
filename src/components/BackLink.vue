@@ -12,16 +12,22 @@
 </script>
 
 <style lang="less">
+  @import (less) "../styles/media";
+
   .back-link {
     color: white;
     position: absolute;
-    top: 40px;
+    top: 47px;
     left: 20px;
     cursor: pointer;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
     -webkit-user-select: none;
+
+    @media @tablet {
+      top: 70px;
+    }
 
     &:hover {
       .back-link__text {

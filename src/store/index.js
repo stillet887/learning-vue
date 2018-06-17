@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
     currentPage: 1,
     currentLimit: 1,
-    showModal: false
+    showModal: false,
+    currentTheme: null
   },
   mutations: {
     changePage(state, payload) {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     },
     changeLimit(state, payload) {
       state.currentLimit = payload;
+    },
+    changeTheme(state, payload) {
+      state.currentTheme = payload;
     }
   },
   actions: {
@@ -25,6 +29,9 @@ export default new Vuex.Store({
     },
     changeLimit({commit}, payload) {
       commit('changeLimit', payload)
+    },
+    changeTheme({commit}, payload) {
+      commit('changeTheme', payload)
     }
   }
 });

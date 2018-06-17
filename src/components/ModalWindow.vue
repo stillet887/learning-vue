@@ -50,15 +50,50 @@
     background-color: rgba(255, 255, 255, 0.2);
     background-size: cover;
 
-
     &::before {
       content: '';
       display: block;
       width: 100%;
       height: 100%;
-      background: url(../assets/modal_background.gif);
       background-size: cover;
-      opacity: 0.5;
+      opacity: 0.4;
+
+      .winter-theme & {
+        background-image: url(../assets/winter/modal.gif);
+        opacity: .5;
+      }
+
+      .autumn-theme & {
+        background-image: url(../assets/autumn/modal.gif);
+      }
+
+      .spring-theme & {
+        background-image: url("../assets/spring/modal.gif");
+      }
+
+      .summer-theme & {
+        background-image: url("../assets/summer/modal.gif");
+        opacity: 0.3;
+        filter: hue-rotate(-40deg);
+      }
+    }
+
+
+    &::after {
+      .spring-theme & {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background-size: contain;
+        background-image: url("../assets/spring/modal.gif");
+        background-position: 30%;
+        opacity: .8;
+      }
     }
 
     &__wrapper {
@@ -67,6 +102,10 @@
       left: 50%;
       transform: translate(-50%, -50%);
       max-width: 75vw;
+
+      @media @phone-strict {
+        min-width: 75vw;
+      }
     }
 
     &__header {
@@ -84,11 +123,16 @@
     &__title {
       text-transform: uppercase;
       margin-bottom: 10px;
-      padding: 0 @horizontalPadding;
+      padding: 0 10px;
       display: inline-block;
-      font-size: 30px;
+      font-size: 20px;
       margin-right: 100px;
       padding-top: calc(~'@{verticalPadding} - 10px');
+
+      @media @tablet {
+        font-size: 30px;
+        padding: 0 @horizontalPadding;
+      }
     }
 
     &__body {
@@ -99,16 +143,21 @@
 
     &__button {
       position: absolute;
-      top: -35px;
-      right: -55px;
+      top: -15px;
+      right: -44px;
+
+      @media @tablet {
+        top: -35px;
+        right: -55px;
+      }
     }
   }
 
   .close-button {
     background: none;
     outline: none;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     cursor: pointer;
     overflow: hidden;
@@ -118,15 +167,27 @@
     background: rgba(0, 0, 0, 0.8);
     box-shadow: inset 0 0 50px 2px rgba(255, 255, 255, 0.3);
 
+    @media @tablet {
+      width: 50px;
+      height: 50px;
+    }
 
     &__icon {
       background: url(../assets/close_icon.png);
       background-size: 50px;
-      max-height: 30px;
-      width: 50px;
-      height: 50px;
+      max-height: 23px;
+      width: 40px;
+      height: 40px;
       opacity: .7;
-      transition: opacity .2s, max-height .3s;
+      background-position: -6px -5px;
+
+      @media @tablet {
+        max-height: 30px;
+        width: 50px;
+        height: 50px;
+        transition: opacity .2s, max-height .3s;
+        background-position: 0 0;
+      }
 
       &:hover {
         max-height: 50px;

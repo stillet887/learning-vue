@@ -20,8 +20,11 @@
                   items-name="Users"
                   v-model="limit"
       />
-      <router-link class="new-user-link" :to="{name: 'NewUser'}">
+      <router-link class="users__link new-user-link" :to="{name: 'NewUser'}">
         New User
+      </router-link>
+      <router-link class="users__link change-theme-link" :to="{name: 'Themes'}">
+        Change Theme
       </router-link>
     </div>
 
@@ -143,8 +146,6 @@
       margin-right: 80px;
 
       @media @tablet {
-        position: relative;
-        top: -20px;
         margin-right: 0;
       }
     }
@@ -158,36 +159,51 @@
         margin-right: 0;
       }
     }
+
+    &__link {
+      color: white;
+      text-decoration: none;
+      word-spacing: 5px;
+      font-size: 17px;
+      position: absolute;
+      cursor: pointer;
+      text-shadow: none;
+      transition: font-size .2s, text-shadow .3s;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      -webkit-user-select: none;
+
+      @media @phone-medium {
+        font-size: 20px;
+      }
+
+      &:hover {
+        font-size: 21px;
+        text-shadow: 1px 1px 3px black;
+      }
+    }
   }
 
   .limitation {
     position: absolute;
     z-index: 2;
     left: 20px;
-    top: 15px;
+    top: 35px;
     line-height: 20px;
     word-spacing: 5px;
+
+    @media @tablet {
+      top: 22px;
+    }
   }
 
   .new-user-link {
-    color: white;
-    text-decoration: none;
-    word-spacing: 5px;
-    font-size: 20px;
-    position: absolute;
     right: 20px;
-    top: 10px;
-    cursor: pointer;
-    text-shadow: none;
-    transition: font-size .2s, text-shadow .3s;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    -webkit-user-select: none;
+    top: 115px;
 
-    &:hover {
-      font-size: 21px;
-      text-shadow: 1px 1px 3px black;
+    @media @tablet {
+      top: 10px
     }
 
     &::before {
@@ -195,6 +211,22 @@
       font-size: 35px;
       position: relative;
       top: 2px;
+    }
+  }
+
+  .change-theme-link {
+    right: 20px;
+    top: 0;
+
+    @media @tablet {
+      top: 80px;
+    }
+
+    &::before {
+      content: '>';
+      font-size: 35px;
+      position: relative;
+      top: 4px;
     }
   }
 
@@ -219,6 +251,7 @@
     color: white;
 
     @media @phone-strict {
+      padding-top: 35px;
       position: relative;
       max-height: 0;
       opacity: 0;

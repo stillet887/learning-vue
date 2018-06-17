@@ -54,6 +54,7 @@
 
             <ul class="user__info user-info">
               <li class="user-info__group"
+                  :class="{'_long-value': field === 'id' || field === 'email'}"
                   v-for="field in displayedFields"
                   :key="field">
                 <div class="user-info__title">
@@ -186,6 +187,10 @@
       background: rgba(255, 255, 255, 0.3);
       position: relative;
 
+      .spring-theme & {
+        background: rgba(255, 255, 255, 0.5);
+      }
+
       @media @tablet {
         height: 100px;
       }
@@ -247,6 +252,10 @@
       flex-basis: 100%;
       background: rgba(255, 255, 255, 0.3);
 
+      .spring-theme & {
+        background: rgba(255, 255, 255, 0.5);
+      }
+
       &._edit {
         flex-grow: 2;
         margin-bottom: 3px;
@@ -289,6 +298,9 @@
     padding: 20px;
 
     &__group {
+      &._long-value {
+        word-break: break-all;
+      }
 
       @media @phone-strict {
         margin-bottom: 10px;
@@ -317,54 +329,6 @@
 
     &__value {
       padding: 10px;
-
-
-    }
-  }
-
-  .action-buttons {
-
-    @media @tablet {
-      display: flex;
-      width: 100%;
-      margin-top: 30px;
-    }
-
-    &__item {
-      cursor: pointer;
-      padding: 5px 20px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 2px solid rgba(0, 0, 0, 0.5);
-      outline: none;
-      color: rgba(0, 0, 0, 0.7);
-      letter-spacing: 5px;
-      transition: color .2s, border .2s, background .2s;
-      font-size: 20px;
-      text-transform: uppercase;
-      font-weight: bold;
-
-      width: 100%;
-      margin-bottom: 15px;
-
-      @media @tablet {
-        flex-grow: 1;
-      }
-
-      &:first-child {
-        margin-right: 15px;
-      }
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 1);
-        border-color: rgba(0, 0, 0, 0.7);
-        color: black;
-      }
-    }
-  }
-
-  .user-deletion {
-    @media @phone-strict {
-      width: 55vw;
     }
   }
 </style>
