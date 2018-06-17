@@ -34,6 +34,8 @@
 </script>
 
 <style lang="less">
+  @import (less) "../styles/media";
+
   @headerHeight: 70px;
   @horizontalPadding: 20px;
   @verticalPadding: 20px;
@@ -64,6 +66,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      max-width: 75vw;
     }
 
     &__header {

@@ -4,7 +4,7 @@
       <span slot="header">
         Delete User
       </span>
-      <div>
+      <div class="user-deletion">
         <h2>
           Are you sure you want to delete the user {{ userForDeletion.name }}?
         </h2>
@@ -33,7 +33,9 @@
         <div class="user__title">
           <img class="user__picture" :src="user.picture || defaultPicture">
           <div class="user__name" @click="selectUser(user)">
-            {{ user.name }}
+            <span class="user__name-inner">
+              {{ user.name }}
+            </span>
           </div>
         </div>
 
@@ -118,6 +120,7 @@
       },
       confirmDeletion() {
         this.$emit('deleteUser', this.userForDeletion.id);
+        this.limit--;
       },
       closeModalWindow() {
         this.userForDeletion = null;
@@ -130,14 +133,23 @@
 </script>
 
 <style lang="less">
+  @import (less) '../styles/media.less';
   @import (less) '../styles/hover-effects.less';
 
   .users-list {
     color: white;
     list-style-type: none;
     padding: 0;
-    max-width: 900px;
     margin: 50px auto;
+    max-width: 90%;
+
+    @media @tablet {
+      max-width: 80%;
+    }
+
+    @media @desktop {
+      max-width: 900px;
+    }
   }
 
   .user {
@@ -170,17 +182,40 @@
       word-spacing: 7px;
       flex-basis: 100%;
       padding-left: 20px;
-      height: 100px;
-      line-height: 100px;
+      height: 70px;
       background: rgba(255, 255, 255, 0.3);
-      .hover-horizontal();
+      position: relative;
+
+      @media @tablet {
+        height: 100px;
+      }
+
+      @media @desktop {
+        .hover-horizontal();
+      }
+    }
+
+    &__name-inner {
+      line-height: 1.2;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      -webkit-user-select: none;
     }
 
     &__picture {
       margin-right: 20px;
-      width: 100px;
-      height: 100px;
+      width: 70px;
+      height: 70px;
       flex-shrink: 0;
+
+      @media @tablet {
+        width: 100px;
+        height: 100px;
+      }
     }
 
     &__description {
@@ -197,10 +232,14 @@
     &__actions {
       display: flex;
       flex-direction: column;
-      width: 100px;
+      width: 70px;
       flex-shrink: 0;
       margin-right: 20px;
       .hover-vertical();
+
+      @media @tablet {
+        width: 100px;
+      }
     }
 
     &__action {
@@ -250,32 +289,48 @@
     padding: 20px;
 
     &__group {
-      display: flex;
-      align-items: center;
+
+      @media @phone-strict {
+        margin-bottom: 10px;
+        &:not(:last-child) {
+          border-bottom: 1px solid;
+        }
+      }
+
+      @media @tablet {
+        display: flex;
+        align-items: center;
+      }
     }
 
     &__title {
-      flex-basis: 72px;
-      flex-shrink: 0;
-      text-align: right;
       text-transform: uppercase;
       font-weight: bold;
       padding-right: 10px;
 
+      @media @tablet {
+        flex-basis: 72px;
+        flex-shrink: 0;
+        text-align: right;
+      }
     }
 
     &__value {
       padding: 10px;
+
+
     }
   }
 
   .action-buttons {
-    display: flex;
-    width: 100%;
-    margin-top: 30px;
+
+    @media @tablet {
+      display: flex;
+      width: 100%;
+      margin-top: 30px;
+    }
 
     &__item {
-      flex-grow: 1;
       cursor: pointer;
       padding: 5px 20px;
       background: rgba(255, 255, 255, 0.1);
@@ -288,6 +343,13 @@
       text-transform: uppercase;
       font-weight: bold;
 
+      width: 100%;
+      margin-bottom: 15px;
+
+      @media @tablet {
+        flex-grow: 1;
+      }
+
       &:first-child {
         margin-right: 15px;
       }
@@ -297,6 +359,12 @@
         border-color: rgba(0, 0, 0, 0.7);
         color: black;
       }
+    }
+  }
+
+  .user-deletion {
+    @media @phone-strict {
+      width: 55vw;
     }
   }
 </style>

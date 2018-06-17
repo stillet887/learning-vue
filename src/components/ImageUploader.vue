@@ -16,11 +16,8 @@
                        @pictureChanged="updateImage"/>
       </div>
 
-      <div class="spinner"
-           v-else-if="loading">
-        <img class="spinner__icon"
-             src="../assets/loading_icon.gif"/>
-      </div>
+      <loader v-else-if="loading"/>
+
     </transition>
 
   </div>
@@ -32,7 +29,8 @@
   export default {
     name: 'ImageUploader',
     components: {
-      ImageCropper: () => import('@/components/ImageCropper.vue')
+      ImageCropper: () => import('@/components/ImageCropper.vue'),
+      Loader: () => import('@/components/Loader.vue')
     },
     model: {
       prop: 'picture',

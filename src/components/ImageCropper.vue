@@ -147,4 +147,14 @@
   .cr-slider-wrap {
     display: none;
   }
+
+  .cr-boundary {
+    max-width: 60vw;
+    max-height: 60vw;
+  }
+
+  .cr-viewport {
+    max-width: 25vw;
+    max-height: 25vw;
+  }
 </style>

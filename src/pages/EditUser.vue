@@ -70,6 +70,8 @@
 </script>
 
 <style lang="less">
+  @import (less) "../styles/media";
+
   .edit-user{
     color: white;
     letter-spacing: 5px;
@@ -80,6 +82,13 @@
       margin: 30px auto;
       padding: 0 20px;
       box-sizing: border-box;
+
+      @media @phone-strict {
+        word-break: break-all;
+        font-size: 25px;
+        margin: 10px auto;
+        letter-spacing: .5px;
+      }
     }
 
     &__error {
@@ -87,6 +96,12 @@
       font-size: 25px;
       margin: 30px auto;
       color: lightblue;
+    }
+
+    &__title {
+      @media @phone-strict {
+        padding-bottom: 30px;
+      }
     }
   }
 </style>

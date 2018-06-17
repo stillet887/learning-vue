@@ -269,6 +269,8 @@
 </script>
 
 <style lang="less">
+  @import (less) "../styles/media";
+
   .user-form {
     color: white;
     max-width: 900px;
@@ -276,7 +278,11 @@
 
     &__group {
       margin: 20px;
-      display: flex;
+
+      @media @tablet {
+        display: flex;
+      }
+
 
       &._first {
         margin-top: 10px;
@@ -291,7 +297,7 @@
     }
 
     &__input {
-      width: calc(~'100% - 160px');
+      width: 100%;
       padding: 10px;
       box-sizing: border-box;
       background: rgba(255, 255, 255, 0.3);
@@ -300,6 +306,10 @@
       color: white;
       font-size: 16px;
       letter-spacing: 6px;
+
+      @media @tablet {
+        width: calc(~'100% - 160px');
+      }
 
       &._textarea {
         resize: none;
@@ -331,35 +341,65 @@
       &._file {
         display: block;
         font-size: 20px;
-        margin-top: 20px;
+        margin-top: 10px;
+        width: 100%;
+
+        @media @tablet {
+          margin-top: 20px;
+          width: auto;
+        }
       }
 
       &._submit {
-        margin: 30px;
-        float: right;
+        margin: 20px;
         font-size: 25px;
         text-transform: uppercase;
+        width: calc(~'100% - 40px');
+
+        @media @tablet {
+          margin: 30px;
+          float: right;
+          width: auto;
+        }
       }
     }
   }
 
   .user-picture {
-    display: flex;
+
+    @media @tablet {
+      display: flex;
+    }
+
 
     &__img {
       width: 120px;
       height: 120px;
-      margin-left: 20px;
-      flex-shrink: 0;
+      margin: auto;
+      display: block;
+
+      @media @tablet {
+        margin-left: 20px;
+        flex-shrink: 0;
+      }
     }
 
     &__group {
       flex-basis: 100%;
-      margin: 0 30px;
+      margin: 0 20px;
+
+      @media @tablet {
+        margin: 0 30px;
+      }
     }
 
     .user-form__label {
-      width: 200px;
+      display: none;
+
+      @media @tablet {
+        display: block;
+        width: 200px;
+      }
     }
 
     .user-form__input {
@@ -372,11 +412,15 @@
   }
 
   .validation {
-    margin-left: 170px;
+    margin: 0 20px;
     color: lightblue;
     letter-spacing: 3px;
     font-size: 18px;
-    padding-bottom: 20px;
+
+    @media @tablet {
+      margin-left: 170px;
+      padding-bottom: 20px;
+    }
 
     &._file {
       margin: 10px 0 0;

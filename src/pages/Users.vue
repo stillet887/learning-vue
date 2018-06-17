@@ -1,19 +1,25 @@
 <template>
   <div class="users">
     <div class="users__header header">
-      <limitation class="limitation"
-                  :current-limit="limit"
-                  :count="usersCount"
-                  :step="3"
-                  items-name="Users"
-                  v-model="limit"
-                  />
       <div class="users__title">
         Users List
       </div>
       <div class="users__count">
         Total : {{ usersCount }}
       </div>
+      <button class="mobile-menu-icon"
+              :class="{'_clicked': mobileMenuOpened}"
+              @click="openMobileMenu"/>
+    </div>
+
+    <div class="menu" :class="{'_opened': mobileMenuOpened}">
+      <limitation class="limitation"
+                  :current-limit="limit"
+                  :count="usersCount"
+                  :step="3"
+                  items-name="Users"
+                  v-model="limit"
+      />
       <router-link class="new-user-link" :to="{name: 'NewUser'}">
         New User
       </router-link>
@@ -30,6 +36,10 @@
     </div>
 
     <transition name="fade">
+      <loader v-if="loading"/>
+    </transition>
+
+    <transition name="fade">
       <users-list
         v-if="usersIsLoaded"
         :users="users"
@@ -37,11 +47,6 @@
     </transition>
 
 
-    <transition name="fade">
-      <div class="spinner" v-if="loading">
-        <img class="spinner__icon" src="../assets/loading_icon.gif"/>
-      </div>
-    </transition>
   </div>
 </template>
 
@@ -53,14 +58,16 @@
     components: {
       UsersList: () => import('@/components/UsersList.vue'),
       Pagination: () => import('@/components/Pagination.vue'),
-      Limitation: () => import('@/components/Limitation.vue')
+      Limitation: () => import('@/components/Limitation.vue'),
+      Loader: () => import('@/components/Loader.vue')
     },
     data(){
       return {
         users: [],
         usersCount: 0,
         errorConnection: false,
-        loading: false
+        loading: false,
+        mobileMenuOpened: false
       }
     },
     computed: {
@@ -83,7 +90,7 @@
           return this.$store.state.currentLimit;
         },
         set(limit) {
-          this.$store.dispatch('changeLimit', limit)
+          this.$store.dispatch('changeLimit', limit);
         }
       }
     },
@@ -115,6 +122,9 @@
           this.errorConnection = true;
         })
       },
+      openMobileMenu() {
+        this.mobileMenuOpened = !this.mobileMenuOpened;
+      }
     },
     created() {
       this.loadUsers();
@@ -123,26 +133,29 @@
 </script>
 
 <style lang="less">
+  @import (less) "../styles/media";
+
   .users {
     &__header {
     }
 
     &__title {
-      position: relative;
-      top: -20px;
+      margin-right: 80px;
+
+      @media @tablet {
+        position: relative;
+        top: -20px;
+        margin-right: 0;
+      }
     }
 
     &__count {
       font-size: 20px;
-      line-height: 10px;
-    }
+      line-height: 20px;
+      margin-right: 80px;
 
-    .spinner {
-      &__icon {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -100%);
+      @media @tablet {
+        margin-right: 0;
       }
     }
   }
@@ -167,6 +180,10 @@
     cursor: pointer;
     text-shadow: none;
     transition: font-size .2s, text-shadow .3s;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
 
     &:hover {
       font-size: 21px;
@@ -194,5 +211,51 @@
 
   .pages-container {
     z-index: 10;
+  }
+
+  .menu {
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    color: white;
+
+    @media @phone-strict {
+      position: relative;
+      max-height: 0;
+      opacity: 0;
+      transition: max-height .5s .5s ease, opacity .5s ease-out;
+      height: 130px;
+      background: rgba(255, 255, 255, 0.3);
+      margin-top: 10px;
+
+      &._opened {
+        max-height: 300px;
+        opacity: 1;
+        transition: max-height .5s ease-out, opacity .5s .5s ease;
+      }
+    }
+  }
+
+  .mobile-menu-icon {
+    height: 50px;
+    width: 50px;
+    background-color: transparent;
+    background-image: url('../assets/menu.svg');
+    background-size: cover;
+    border: none;
+    outline: none;
+    display: block;
+    transition: background 1s ease, transform 1s ease;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    @media @tablet {
+      display: none;
+    }
+
+    &._clicked {
+      background-image: url('../assets/menu_close.svg');
+      transform: rotate(180deg);
+    }
   }
 </style>

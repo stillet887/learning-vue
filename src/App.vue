@@ -14,7 +14,8 @@ export default {
 </script>
 
 <style lang="less">
-  @import url('https://fonts.googleapis.com/css?family=Titillium+Web');
+  @import "styles/media";
+  @import url('https://fonts.googleapis.com/css?family=Titillium+Web|Cinzel');
 
   body {
     margin: 0;
@@ -29,10 +30,15 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url(./assets/app_background.jpg);
+      /*background-image: url(./assets/app_background.jpg);*/
+      /*background-image: url(https://78.media.tumblr.com/5163091ed0007012a89940d67caf3d09/tumblr_npvwsyMZ2Z1saq3w2o1_500.gif);*/
+      /*background-image: url(http://www.playcast.ru/uploads/2017/12/22/24196917.gif);*/
+      /*background-image: url(http://www.nat-geo.ru/upload/iblock/67b/67b1348acdf288ccbb2bf9c02b435f69.jpg);*/
+      background-image: url(http://s11.favim.ru/orig/160616/novyj-god-sneg-zima-elka-Favim.ru-4417566.gif);
       background-size: cover;
-      filter: brightness(0.3);
+      filter: brightness(0.6);
       z-index: -1;
+      background-position: 50%;
     }
   }
 
@@ -41,36 +47,30 @@ export default {
   }
 
   .header {
-    font-size: 50px;
+    font-size: 35px;
     text-transform: uppercase;
     letter-spacing: 3px;
     word-spacing: 15px;
     font-weight: bold;
     text-align: center;
-    padding: 20px 0;
+    padding: 10px 0;
     color: white;
     background: rgba(255, 255, 255, 0.3);
-  }
+    font-family: 'Cinzel', serif;
 
-  .spinner {
-    padding: 40px 0 20px;
-    text-align: center;
-
-    &__icon {
-      display: inline-block;
-      filter: grayscale(1);
-      width: 100px;
+    @media @tablet {
+      padding: 22px 0;
+      font-size: 50px;
     }
   }
 
-
   .fade-enter-active {
     max-height: 500px;
-    transition: max-height .3s ease-out, opacity .2s .3s ease-in;
+    transition: max-height .3s ease-out, opacity .3s .3s ease-in;
   }
   .fade-leave-active {
     max-height: 500px;
-    transition: max-height .2s .3s ease-out, opacity .3s ease-in;
+    transition: max-height .3s .3s ease-out, opacity .3s ease-in;
   }
   .fade-enter, .fade-leave-to {
     opacity: 0;

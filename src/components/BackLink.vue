@@ -15,9 +15,13 @@
   .back-link {
     color: white;
     position: absolute;
-    top: 70px;
+    top: 40px;
     left: 20px;
     cursor: pointer;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
 
     &:hover {
       .back-link__text {

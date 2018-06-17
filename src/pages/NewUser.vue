@@ -50,6 +50,8 @@
 </script>
 
 <style lang="less">
+  @import (less) "../styles/media";
+
   .new-user {
     &__error {
       max-width: 900px;
@@ -57,6 +59,12 @@
       margin: 30px auto;
       color: lightblue;
       letter-spacing: 5px;
+    }
+
+    &__title {
+      @media @phone-strict {
+        padding-bottom: 30px;
+      }
     }
   }
 </style>

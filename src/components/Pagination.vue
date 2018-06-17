@@ -99,5 +99,12 @@
          padding: 6px 12px;
        }
     }
+
+    &__number {
+      -moz-user-select: none;
+      -ms-user-select: none;
+      -o-user-select: none;
+      -webkit-user-select: none;
+    }
   }
 </style>
