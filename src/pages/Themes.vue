@@ -3,11 +3,11 @@
     <div class="themes__title header">Themes</div>
     <back-link/>
 
-    <modal-window v-if="themeIsChanging" @close="closeModalWindow">
+    <modal-window v-if="changingDialogOpened" @close="cancelChanging">
       <span slot="header">
         Change Theme
       </span>
-      <div class="user-deletion">
+      <div class="changing-dialog">
         <h2>
           Are you sure you want change theme to {{ currentTheme }}?
         </h2>
@@ -22,6 +22,18 @@
                   @click="confirmChanging">
             Confirm
           </button>
+
+          <div>
+            <input class="dont-ask-again__checkbox"
+                   type="checkbox"
+                   v-model="changeWithoutConfirmation"
+                   id="changeWithoutConfirmation"/>
+            <label class="dont-ask-again__label"
+                   :class="{'_active': changeWithoutConfirmation}"
+                   for="changeWithoutConfirmation">
+              Don't ask again
+            </label>
+          </div>
         </div>
 
       </div>
@@ -58,7 +70,8 @@
           'summer',
           'autumn'
         ],
-        themeIsChanging: false
+        changeWithoutConfirmation: false,
+        changingDialogOpened: false
       }
     },
     computed: {
@@ -85,10 +98,12 @@
         this.closeModalWindow();
       },
       openModalWindow() {
-        this.themeIsChanging = true;
+        if (!this.changeWithoutConfirmation) {
+          this.changingDialogOpened = true;
+        }
       },
       closeModalWindow() {
-        this.themeIsChanging = false;
+        this.changingDialogOpened = false;
       }
     }
   }
@@ -142,7 +157,7 @@
           display: block;
           width: 45px;
           height: 45px;
-          background: url("https://cdn3.iconfinder.com/data/icons/neutro-interface/32/accept-circle-512.png");
+          background: url("../assets/check_icon.png");
           background-size: cover;
           position: absolute;
           top: 50%;
@@ -199,6 +214,40 @@
       padding: 5px 5px 5px 12px;
       background: rgba(0, 0, 0, .6);
       line-height: 1.2;
+    }
+  }
+
+  .dont-ask-again {
+    &__label {
+      font-size: 16px;
+      font-weight: bold;
+      position: relative;
+
+      &::before {
+        position: absolute;
+        content: '';
+        display: block;
+        width: 16px;
+        height: 16px;
+        background-color: rgba(0, 0, 0, .6);
+        top: 4px;
+        left: -22px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background .5s ease;
+      }
+
+      &._active {
+        &::before {
+          background-color: white;
+          background-image: url("../assets/check_icon.png");
+          background-size: 100%;
+        }
+      }
+    }
+
+    &__checkbox {
+      opacity: 0;
     }
   }
 </style>
