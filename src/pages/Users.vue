@@ -239,6 +239,7 @@
     padding: 10px;
     background: darkgray;
     color: white;
+    left: 0;
   }
 
   .pages-container {
