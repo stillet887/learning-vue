@@ -23,7 +23,8 @@
 
       .autumn-theme & {
         background-image: url("../assets/autumn/loading.gif");
-        background-size: 125%;
+        background-size: 120%;
+        background-position: 50%;
       }
 
       .spring-theme & {
