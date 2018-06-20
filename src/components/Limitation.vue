@@ -104,7 +104,6 @@
     },
     mounted() {
       if (!this.knobIsInitialized) {
-        console.log('@@@')
         this.knobChange();
       }
     }

@@ -95,6 +95,10 @@
         set(limit) {
           this.$store.dispatch('changeLimit', limit);
         }
+      },
+      requestIsJustified() {
+        const adequateParams = (this.limit * (this.page - 1)) < this.usersCount;
+        return adequateParams || !this.usersCount;
       }
     },
     watch: {
@@ -104,17 +108,18 @@
     methods: {
       loadUsers(){
         this.loading = true;
-
-        axios.get(this.url).then(res => {
-          this.users = res.data;
-          this.usersCount = Number(res.headers['x-total-count']);
-          this.errorConnection = false;
-          this.loading = false;
-        }).catch(() => {
-          this.errorConnection = true;
-          this.loading = false;
-          this.users = [];
-        })
+        if (this.requestIsJustified) {
+          axios.get(this.url).then(res => {
+            this.users = res.data;
+            this.usersCount = Number(res.headers['x-total-count']);
+            this.errorConnection = false;
+            this.loading = false;
+          }).catch(() => {
+            this.errorConnection = true;
+            this.loading = false;
+            this.users = [];
+          })
+        }
       },
       deleteUser(id) {
         const url = `/users/${id}`;
