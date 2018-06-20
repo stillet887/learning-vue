@@ -9,7 +9,10 @@
       Update error
     </div>
     <div class="edit-user__id">
-      ID : {{ this.userId }}
+      ID :
+      <span class="edit-user__id-inner">
+        {{ this.userId }}
+      </span>
     </div>
     <user-form class="edit-user__form"
                v-if="user"
@@ -89,6 +92,13 @@
         margin: 10px auto;
         letter-spacing: .5px;
       }
+    }
+
+    &__id-inner {
+      -moz-user-select: all;
+      -ms-user-select: all;
+      -o-user-select: all;
+      -webkit-user-select: all;
     }
 
     &__error {

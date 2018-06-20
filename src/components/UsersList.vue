@@ -205,10 +205,6 @@
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -o-user-select: none;
-      -webkit-user-select: none;
     }
 
     &__picture {
@@ -329,6 +325,10 @@
 
     &__value {
       padding: 10px;
+      -moz-user-select: all;
+      -ms-user-select: all;
+      -o-user-select: all;
+      -webkit-user-select: all;
     }
   }
 </style>

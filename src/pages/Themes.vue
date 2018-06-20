@@ -111,11 +111,6 @@
   @import (less) "../styles/media";
 
   .themes {
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    -webkit-user-select: none;
-
     &__title {
       @media @phone-strict {
         padding-bottom: 30px;

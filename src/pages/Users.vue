@@ -173,10 +173,6 @@
       cursor: pointer;
       text-shadow: none;
       transition: font-size .2s, text-shadow .3s;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      -o-user-select: none;
-      -webkit-user-select: none;
 
       @media @phone-medium {
         font-size: 20px;

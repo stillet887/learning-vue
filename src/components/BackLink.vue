@@ -20,10 +20,6 @@
     top: 47px;
     left: 20px;
     cursor: pointer;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    -webkit-user-select: none;
 
     @media @tablet {
       top: 70px;

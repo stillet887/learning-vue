@@ -107,6 +107,10 @@ export default {
 
   #app {
     font-family: 'Titillium Web', sans-serif;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    -webkit-user-select: none;
   }
 
   .header {
