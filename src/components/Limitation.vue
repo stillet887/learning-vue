@@ -3,11 +3,12 @@
     <div class="limitation__wrapper">
       <transition name="opacity">
         <div class="limitation__outer"
-             @wheel.capture.stop
-             v-show="readyToShow">
+             @wheel.capture.stop>
           <input class="limitation__input"
                  type="text"
-                 v-model="currentLimit"
+                 :value="currentLimit"
+                 @keyup.enter="enterNewValue"
+                 @blur="revertOldValue"
                  ref="limitInput">
         </div>
       </transition>
@@ -31,24 +32,14 @@
         type: Number,
         required: true
       },
-      step: {
-        type: Number,
-        default: 5
-      },
       count: {
         type: Number,
         required: true
-      },
-      itemsName: {
-        type: String,
-        default: 'Items'
       }
     },
     data() {
       return {
-        limitInput: null,
-        readyToShow: false,
-        knobIsInitialized: false
+        limitInput: null
       }
     },
     computed: {
@@ -71,41 +62,28 @@
       }
     },
     watch: {
-      'count': 'knobChange'
+      'count': 'changeMaxLimit'
     },
     methods: {
-      knobChange() {
-        if(this.limitInput && this.count) {
-          if(!this.knobIsInitialized) {
-            this.limitInput.knob(this.knobConfig);
-            this.readyToShow = true;
-            this.knobIsInitialized = true;
-          } else {
-            this.limitInput.trigger('configure', this.knobConfig);
-            if(this.count < this.currentLimit) {
-              this.$emit('selectLimit', this.count);
-              this.limitInput.val(this.count);
-            }
-          }
-        } else {
-          if(this.$refs.limitInput && this.count) {
-            this.limitInput =  $(this.$refs.limitInput);
-            this.knobChange();
-          } else {
-            setTimeout(this.knobChange, 200);
-          }
-
+      changeMaxLimit() {
+        this.limitInput.trigger('configure', this.knobConfig);
+        if(this.count < this.currentLimit) {
+          this.$emit('selectLimit', this.count);
         }
       },
-
       changeLimit(val) {
         this.$emit('selectLimit', Math.round(val));
+      },
+      enterNewValue(){
+        this.changeLimit(+this.$refs.limitInput.value);
+      },
+      revertOldValue() {
+        this.$refs.limitInput.value = this.currentLimit;
       }
     },
     mounted() {
-      if (!this.knobIsInitialized) {
-        this.knobChange();
-      }
+      this.limitInput =  $(this.$refs.limitInput);
+      this.limitInput.knob(this.knobConfig);
     }
   }
 </script>

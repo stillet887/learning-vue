@@ -14,11 +14,10 @@
 
     <div class="menu" :class="{'_opened': mobileMenuOpened}">
       <limitation class="limitation"
+                  v-if="usersCount"
+                  v-model="limit"
                   :current-limit="limit"
                   :count="usersCount"
-                  :step="3"
-                  items-name="Users"
-                  v-model="limit"
       />
       <router-link class="users__link new-user-link" :to="{name: 'NewUser'}">
         New User
