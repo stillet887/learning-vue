@@ -5,7 +5,7 @@
         <div class="limitation__outer"
              @wheel.capture.stop>
           <input class="limitation__input"
-                 type="text"
+                 type="number"
                  :value="currentLimit"
                  @keyup.enter="enterNewValue"
                  @blur="revertOldValue"
